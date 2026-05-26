@@ -8,16 +8,16 @@ A Claude Code plugin for AI-powered job searching, resume tailoring, and cover l
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| [Setup](./skills/create_profile/) | `/see:create_profile` | One-time onboarding: resume, preferences, LinkedIn contacts, and work history interview |
-| [Job Search](./skills/find_jobs/) | `/see:find_jobs` | Automated job search with smart filtering and network matching |
-| [Tailor Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Create tailored resumes for specific job postings |
-| [Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write natural, persuasive cover letters |
+| [Create Profile](./skills/create_profile/) | `/see:create_profile` | One-time onboarding: resume, preferences, and work history interview |
+| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Automated job search with smart filtering |
+| [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Create tailored resumes for specific job postings |
+| [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write natural, persuasive cover letters |
 | [Apply](./skills/apply/) | `/see:apply` | Fill out job applications on Greenhouse, Lever, and Workday |
 
 ## How They Work Together
 
-1. **`/see:create_profile`** uploads your resume, configures preferences, imports LinkedIn contacts, and conducts a work history interview (one-time)
-2. **`/see:find_jobs`** finds jobs that match your preferences and resume, flags companies where you have connections
+1. **`/see:create_profile`** uploads your resume, configures preferences, and conducts a work history interview (one-time)
+2. **`/see:find_jobs`** finds jobs that match your preferences and resume
 3. **`/see:tweak_resume`** rewrites your resume for a specific job posting, saves the job posting and tailored resume together
 4. **`/see:generate_cover_letter last`** writes a cover letter using the most recent job's posting and tailored resume
 5. **`/see:apply last`** fills out the application form on Greenhouse, Lever, or Workday using your tailored resume and cover letter
@@ -57,7 +57,7 @@ Then run setup:
 
 ### After installing
 
-Setup will create `~/.see/`, prompt you for your resume, configure your job preferences, optionally import your LinkedIn contacts, and conduct a work history interview.
+Setup will create `~/.see/`, prompt you for your resume, configure your job preferences, and conduct a work history interview.
 
 You can also add your resume manually first:
 
@@ -115,7 +115,6 @@ seek-employment-expeditiously/
 ├── resume/                             # Your resume PDF/DOCX
 ├── profile.md                          # Work history from interview
 ├── preferences.md                      # Job matching rules
-├── linkedin-contacts.csv               # LinkedIn connections (optional)
 ├── job-history.md                      # Running log from find_jobs
 ├── application-data.md                # Reusable form field answers
 └── jobs/                               # One folder per application
