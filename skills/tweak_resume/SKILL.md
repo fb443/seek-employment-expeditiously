@@ -109,10 +109,19 @@ Create the tailored resume following these principles:
 
 **Structure — preserve the user's template:**
 - Keep the exact same section order, headings, and layout as the original resume
-- If the original has a "Summary" section, rewrite it for this role. If it doesn't have one, don't add one.
+- If the original has a "Summary" section, rewrite it for this role. If it doesn't have one, don't add one automatically.
 - If the original uses a two-column layout, skills sidebar, or any other formatting convention, maintain it
 - The only changes should be to *content within* existing sections — not to the sections themselves
 - Do NOT impose a different structure (e.g., don't add a Summary if there isn't one, don't reorder Education vs. Experience)
+
+**Suggesting structural changes (optional):**
+After generating the tailored resume, if you believe a structural change would meaningfully strengthen the resume for this specific role, suggest it to the user. Examples:
+- Adding a Summary/Profile section if one doesn't exist and the role would benefit from a positioning statement
+- Reordering sections (e.g., moving a highly relevant Skills section above Experience)
+- Adding a "Projects" or "Additional Experience" section for gap-filled experience that doesn't fit existing roles
+- Removing a section that adds noise for this role (e.g., an "Interests" section)
+
+Present suggestions separately from the tailored resume — the user decides whether to adopt them. Frame each suggestion with *why* it helps for this specific role.
 
 **Bullet point principles:**
 - Lead each role with the bullets most relevant to the target job
@@ -213,11 +222,22 @@ Wait for the user to verify or correct before finalizing. Apply all corrections 
 
 ### Step 4: Iterate
 
-Ask if the user wants to adjust anything:
+If you have structural suggestions (see "Suggesting structural changes" above), present them now:
+
+```
+**Structural suggestions for this role:**
+- [Suggestion]: [Why it helps for this specific posting]
+- ...
+
+Want me to apply any of these?
+```
+
+Then ask if the user wants to adjust anything:
 - Tone (more technical, more strategic, more metrics-heavy)
 - Emphasis (highlight certain roles or skills more)
 - Length (condense to 1 page, expand detail in certain areas)
 - Specific bullet points to rephrase
+- Structural changes from the suggestions above
 
 Apply changes and re-save.
 
@@ -246,7 +266,8 @@ Structure user-facing output with these sections:
 
 1. **Tailored Resume** — the full resume text
 2. **Tailoring Notes** — key changes made (reordered bullets, rewritten sections, added content from profile) and the narrative pitch
-3. **What's Next** — suggest iterating on tone/emphasis, or writing a cover letter with `/see:generate_cover_letter`
+3. **Structural Suggestions** (if any) — optional changes to the resume's layout or sections that would strengthen it for this role
+4. **What's Next** — suggest iterating on tone/emphasis, or writing a cover letter with `/see:generate_cover_letter`
 
 ---
 

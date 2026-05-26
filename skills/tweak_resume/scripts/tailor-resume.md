@@ -23,7 +23,9 @@ A hiring manager spends ~7 seconds on a first-pass resume scan. In those 7 secon
 
 ## Structure — Preserve the User's Template
 
-The tailored resume must keep the same section order, headings, layout, and formatting as the original. If the original has a Summary, rewrite it. If it doesn't, don't add one. If it uses a two-column layout, sidebar, or any other convention, maintain it. Only change content within existing sections.
+The tailored resume must keep the same section order, headings, layout, and formatting as the original. If the original has a Summary, rewrite it. If it doesn't, don't add one automatically. If it uses a two-column layout, sidebar, or any other convention, maintain it. Only change content within existing sections.
+
+**However** — if a structural change would meaningfully help (e.g., adding a Summary for a role that needs positioning, reordering sections, adding a Projects section for gap-filled experience), note it separately as a suggestion. Don't apply it to the output — just flag it so the main skill can offer it to the user.
 
 ## Content Changes Within Sections
 
