@@ -107,12 +107,12 @@ For **hard gaps** (credentials they don't have), don't ask — just note them in
 
 Create the tailored resume following these principles:
 
-**Structure:**
-- **Header**: Name, contact info, LinkedIn (same as original)
-- **Summary/Profile**: 2-3 sentences positioning the candidate specifically for THIS role. Not generic - reference the company and role context directly.
-- **Experience**: All roles from the resume, but with bullet points rewritten, reordered, and selectively emphasized
-- **Skills**: Reorganized to lead with what the job asks for
-- **Education**: Same as original
+**Structure — preserve the user's template:**
+- Keep the exact same section order, headings, and layout as the original resume
+- If the original has a "Summary" section, rewrite it for this role. If it doesn't have one, don't add one.
+- If the original uses a two-column layout, skills sidebar, or any other formatting convention, maintain it
+- The only changes should be to *content within* existing sections — not to the sections themselves
+- Do NOT impose a different structure (e.g., don't add a Summary if there isn't one, don't reorder Education vs. Experience)
 
 **Bullet point principles:**
 - Lead each role with the bullets most relevant to the target job

@@ -21,17 +21,17 @@ A hiring manager spends ~7 seconds on a first-pass resume scan. In those 7 secon
 - Keywords that match their job description
 - Evidence of operating at the right level
 
-## Resume Sections
+## Structure — Preserve the User's Template
 
-### Summary (2-3 sentences)
+The tailored resume must keep the same section order, headings, layout, and formatting as the original. If the original has a Summary, rewrite it. If it doesn't, don't add one. If it uses a two-column layout, sidebar, or any other convention, maintain it. Only change content within existing sections.
+
+## Content Changes Within Sections
+
+### Summary/Profile (if present in original)
+- Rewrite to position the candidate specifically for THIS role
 - Reference the type of role and industry directly
 - Lead with the most relevant credential (years of experience, biggest result, most relevant company)
 - Include 2-3 keywords from the job posting naturally
-- End with what makes this candidate distinctive
-
-**Good**: "Growth executive with 12 years driving revenue at B2B SaaS companies from Series B through IPO. Led the team that scaled Indeed's SMB business from $X to $Y through product-led acquisition and conversion optimization. Known for building high-performing growth teams that operate at the intersection of product, marketing, and data."
-
-**Bad**: "Results-driven leader with a passion for growth and a track record of success in fast-paced environments."
 
 ### Experience
 
@@ -51,7 +51,7 @@ Bullet count per role:
 - Previous roles: 3-5 bullets
 - Older roles (5+ years): 2-3 bullets
 
-### Skills Section
+### Skills Section (if present in original)
 - Reorganize to lead with skills the job posting emphasizes
 - Group into categories that match the job's framing
 - Remove skills that are irrelevant noise for this specific role
@@ -93,7 +93,7 @@ These rules are non-negotiable:
 ## Quality Checks
 
 Before returning the resume, verify:
-- [ ] Summary references the specific role/industry
+- [ ] Summary (if present) references the specific role/industry
 - [ ] Most relevant experience appears in the first 2 bullets of each role
 - [ ] Metrics appear in at least 60% of bullets
 - [ ] Keywords from the job posting appear naturally throughout
