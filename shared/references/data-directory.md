@@ -30,4 +30,6 @@ DATA_DIR/
   linkedin-contacts.csv # LinkedIn connections (optional)
   jobs/                # Per-job application folders
   job-history.md       # Running log from find_jobs
+  applications.md      # Aggregated application tracker
+  feedback.md          # Search feedback for improving future results
 ```

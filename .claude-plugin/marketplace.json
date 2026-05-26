@@ -21,7 +21,7 @@
       },
       "repository": "https://github.com/fb443/seek-employment-expeditiously",
       "license": "MIT",
-      "keywords": ["job-search", "resume", "cover-letter", "career", "apply"],
+      "keywords": ["job-search", "resume", "cover-letter", "career", "apply", "tracker"],
       "category": "productivity"
     }
   ]

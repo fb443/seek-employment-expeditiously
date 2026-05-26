@@ -110,9 +110,19 @@ For jobs passing must-haves, evaluate nice-to-have criteria:
 
 Score: **+3 points** per nice-to-have met, up to **+15**.
 
-### 7. Compute Final Score & Assign Rating
+### 7. Apply Feedback Adjustments
 
-Sum all points (max ~105):
+If `DATA_DIR/feedback.md` exists, apply learned adjustments before computing the final score:
+
+- **Disliked patterns**: If the job matches a pattern the user previously flagged as unwanted (e.g., "healthcare companies", "marketing-disguised-as-growth roles"), apply a **-15 penalty** or treat as a soft dealbreaker.
+- **Liked patterns**: If the job matches patterns from thumbs-up feedback (e.g., "product-oriented roles", "Series B+ startups"), apply a **+5 bonus**.
+- **Title reinterpretation**: If feedback notes that certain titles don't mean what they seem (e.g., "Growth Lead at agencies = marketing"), read the description more carefully before scoring rather than relying on the title pre-screen.
+
+These adjustments are cumulative with the base score.
+
+### 8. Compute Final Score & Assign Rating
+
+Sum all points (max ~105, before feedback adjustments):
 
 | Rating | Score | Criteria |
 |---|---|---|

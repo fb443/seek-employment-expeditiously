@@ -43,6 +43,13 @@ Read these files:
 - `DATA_DIR/preferences.md` (preferences)
 - `DATA_DIR/job-history.md` (to avoid duplicates)
 - `DATA_DIR/linkedin-contacts.csv` (if it exists — for network matching)
+- `DATA_DIR/feedback.md` (if it exists — user feedback from `/see:track_applications`)
+
+**Apply feedback:** If `feedback.md` exists, read the patterns and adjustments before searching. Use these to:
+- Skip jobs matching disliked patterns (e.g., if user flagged "healthcare" as unwanted, treat it as a dealbreaker even before it's formally added to preferences)
+- Weight search terms toward liked patterns (e.g., if user liked product-oriented roles, prioritize those keywords)
+- Adjust the display threshold if feedback shows Medium-scored results were consistently disliked
+- Refine title interpretation (e.g., if user said "Growth Lead is really marketing," filter those more carefully by reading descriptions before scoring)
 
 Extract search terms from:
 1. `$ARGUMENTS` if provided
@@ -225,10 +232,15 @@ github.com/fb443/seek-employment-expeditiously
 
 ### Step 9: Learn from Feedback
 
-If user provides feedback, update `DATA_DIR/preferences.md`:
+If the user provides immediate feedback on results, update `DATA_DIR/preferences.md`:
 - "No agencies" → add to dealbreakers
 - "Prefer AI companies" → add to nice-to-haves
 - "Minimum $350k" → update salary threshold
+
+Also check `DATA_DIR/feedback.md` if it exists. This file is maintained by `/see:track_applications feedback` and contains structured feedback from past searches — patterns the user liked/disliked, scoring adjustments, and search term refinements. Apply these when filtering and scoring results.
+
+After presenting results, remind the user:
+- "Run `/see:track_applications feedback` later to review these results and help me find better matches next time."
 
 ---
 

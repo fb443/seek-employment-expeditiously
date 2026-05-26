@@ -11,6 +11,7 @@ A Claude Code plugin for AI-powered job searching, resume tailoring, and cover l
 | [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Rewrite your resume for a specific job posting using your work history |
 | [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write a cover letter that connects your achievements to the employer's needs |
 | [Apply](./skills/apply/) | `/see:apply` | Tailor resume, generate cover letter, and fill the application form end-to-end |
+| [Track Applications](./skills/track_applications/) | `/see:track_applications` | Dashboard, pipeline analysis, and feedback to improve future searches |
 
 ## How They Work Together
 
@@ -19,6 +20,7 @@ A Claude Code plugin for AI-powered job searching, resume tailoring, and cover l
 3. **`/see:tweak_resume`** fetches the job posting, maps your experience to the requirements, fills gaps with you, and generates a tailored resume
 4. **`/see:generate_cover_letter last`** writes a cover letter connecting 2-3 of your achievements to the employer's specific needs
 5. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
+6. **`/see:track_applications`** shows where every application stands, diagnoses why your pipeline is or isn't producing results, and collects feedback that makes future searches better
 
 All skills share a `~/.see/` directory for personal files. Each job application gets its own folder containing the posting, tailored resume, and cover letter.
 
@@ -101,9 +103,11 @@ seek-employment-expeditiously/
 │   ├── generate_cover_letter/
 │   │   ├── SKILL.md
 │   │   └── scripts/
-│   └── apply/
-│       ├── SKILL.md
-│       └── scripts/
+│   ├── apply/
+│   │   ├── SKILL.md
+│   │   └── scripts/
+│   └── track_applications/
+│       └── SKILL.md
 └── README.md
 ```
 
@@ -115,6 +119,8 @@ seek-employment-expeditiously/
 ├── preferences.md                      # Job matching rules
 ├── job-history.md                      # Running log from find_jobs
 ├── application-data.md                # Reusable form field answers
+├── applications.md                    # Aggregated application tracker
+├── feedback.md                        # Search feedback for improving future results
 └── jobs/                               # One folder per application
     ├── google-lead-gpm-2026-02-11/
     │   ├── posting.md                  # Saved job description
