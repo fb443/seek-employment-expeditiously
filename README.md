@@ -2,8 +2,6 @@
 
 A Claude Code plugin for AI-powered job searching, resume tailoring, and cover letter writing.
 
-![see-demo](https://github.com/user-attachments/assets/2f39a093-bf7b-4c43-a7b5-c3e6251440e4)
-
 ## Skills
 
 | Skill | Command | Description |
