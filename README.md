@@ -7,18 +7,18 @@ A Claude Code plugin for AI-powered job searching, resume tailoring, and cover l
 | Skill | Command | Description |
 |-------|---------|-------------|
 | [Create Profile](./skills/create_profile/) | `/see:create_profile` | One-time onboarding: resume, preferences, and work history interview |
-| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Automated job search with smart filtering |
-| [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Create tailored resumes for specific job postings |
-| [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write natural, persuasive cover letters |
-| [Apply](./skills/apply/) | `/see:apply` | Fill out job applications on Greenhouse, Lever, and Workday |
+| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Search hiring.cafe and Google Jobs, score and rank matches, save top postings |
+| [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Rewrite your resume for a specific job posting using your work history |
+| [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write a cover letter that connects your achievements to the employer's needs |
+| [Apply](./skills/apply/) | `/see:apply` | Tailor resume, generate cover letter, and fill the application form end-to-end |
 
 ## How They Work Together
 
 1. **`/see:create_profile`** uploads your resume, configures preferences, and conducts a work history interview (one-time)
-2. **`/see:find_jobs`** finds jobs that match your preferences and resume
-3. **`/see:tweak_resume`** rewrites your resume for a specific job posting, saves the job posting and tailored resume together
-4. **`/see:generate_cover_letter last`** writes a cover letter using the most recent job's posting and tailored resume
-5. **`/see:apply last`** fills out the application form on Greenhouse, Lever, or Workday using your tailored resume and cover letter
+2. **`/see:find_jobs`** searches multiple sources, suggests adjacent roles you might not have considered, scores each match, and saves the best postings
+3. **`/see:tweak_resume`** fetches the job posting, maps your experience to the requirements, fills gaps with you, and generates a tailored resume
+4. **`/see:generate_cover_letter last`** writes a cover letter connecting 2-3 of your achievements to the employer's specific needs
+5. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
 
 All skills share a `~/.see/` directory for personal files. Each job application gets its own folder containing the posting, tailored resume, and cover letter.
 
