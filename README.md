@@ -1,6 +1,6 @@
 # Seek Employment Expeditiously (SEE)
 
-A Claude Code plugin for AI-powered job searching, resume tailoring, and cover letter writing.
+A Claude Code plugin that searches for jobs, tailors your resume, writes cover letters, fills out applications, and learns what you want over time.
 
 ## Skills
 
@@ -15,12 +15,28 @@ A Claude Code plugin for AI-powered job searching, resume tailoring, and cover l
 
 ## How They Work Together
 
-1. **`/see:create_profile`** uploads your resume, configures preferences, and conducts a work history interview (one-time)
-2. **`/see:find_jobs`** searches multiple sources, suggests adjacent roles you might not have considered, scores each match, and saves the best postings
+```
+create_profile (one-time)
+       ↓
+   find_jobs ←────────────────┐
+       ↓                      │
+  tweak_resume                │ feedback improves
+       ↓                      │ future searches
+ generate_cover_letter        │
+       ↓                      │
+     apply                    │
+       ↓                      │
+ track_applications ──────────┘
+```
+
+1. **`/see:create_profile`** uploads your resume, configures preferences, and conducts a work history interview (one-time setup)
+2. **`/see:find_jobs`** searches multiple sources, suggests adjacent roles you might not have considered, scores each match, and saves the best postings. After showing results, it asks what you thought — your feedback is saved and applied to future searches automatically.
 3. **`/see:tweak_resume`** fetches the job posting, maps your experience to the requirements, fills gaps with you, and generates a tailored resume
 4. **`/see:generate_cover_letter last`** writes a cover letter connecting 2-3 of your achievements to the employer's specific needs
 5. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
-6. **`/see:track_applications`** shows where every application stands, diagnoses why your pipeline is or isn't producing results, and collects feedback that makes future searches better
+6. **`/see:track_applications`** shows where every application stands, computes your funnel (found → applied → response → interview → offer), diagnoses where things are stuck, and suggests what to change. You can also review past search results you didn't comment on at the time.
+
+**The search gets smarter over time.** Every time you tell `find_jobs` which results were off the mark, it updates your preferences and adjusts scoring. `track_applications` adds pipeline-level insight — if your response rate is low, it tells you the resume might need work; if interviews aren't converting, it points you toward prep instead of more applications.
 
 All skills share a `~/.see/` directory for personal files. Each job application gets its own folder containing the posting, tailored resume, and cover letter.
 

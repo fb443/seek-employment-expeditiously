@@ -1,13 +1,15 @@
 # Job Search Skill for Claude Code
 
-An automated job search skill that uses browser automation to find and evaluate job listings from [hiring.cafe](https://hiring.cafe).
+An automated job search skill that uses browser automation to find and evaluate job listings from [hiring.cafe](https://hiring.cafe) and [Google Jobs](https://www.google.com/search?q=jobs&ibp=htl;jobs).
 
 ## Features
 
-- **Automated daily search** via cron job
-- **Smart filtering** based on your preferences (salary, location, dealbreakers)
+- **Multi-source search** across hiring.cafe and Google Jobs
+- **Expanded search terms** — suggests skills-based and adjacent role queries beyond your stated targets
+- **Fit scoring** with numeric scores based on seniority, skills, experience, and preferences
+- **Smart filtering** based on salary, location, dealbreakers, and learned patterns
 - **Job history tracking** to avoid showing duplicates
-- **Learning from feedback** - refine preferences over time
+- **Feedback loop** — after every search, asks what you thought. Your feedback updates preferences and adjusts future scoring automatically.
 - **Browser automation** via Claude in Chrome MCP
 
 ## Prerequisites
@@ -69,6 +71,7 @@ find_jobs/
 ├── resume/                       # Your resume PDF/DOCX
 ├── preferences.md                # Job matching rules
 ├── job-history.md                # Log of all jobs found
+├── feedback.md                   # Your feedback — adjusts future scoring
 └── jobs/                         # Per-job application folders
 ```
 

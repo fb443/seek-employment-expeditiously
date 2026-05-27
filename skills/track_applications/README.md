@@ -44,7 +44,9 @@ The skill computes conversion rates between each stage and flags the biggest dro
 
 ## Feedback Loop
 
-When you review past results, the skill updates your preferences and creates a `feedback.md` file that `/see:find_jobs` reads on future runs. Over time, the search gets better at showing you jobs you actually want.
+Most feedback happens automatically — `/see:find_jobs` asks what you thought after every search and saves your responses to `feedback.md`. That file is read on future searches to adjust scoring and filtering.
+
+`/see:track_applications feedback` is for going back and reviewing results you didn't comment on at the time, or revisiting after you've had time to think.
 
 ## License
 
