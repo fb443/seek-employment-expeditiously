@@ -162,9 +162,12 @@ From their responses combined with the parsed resume data, save `DATA_DIR/prefer
 
 ## Nice-to-Haves
 - [parsed from response]
+
+## Search Sources
+- LinkedIn search (Apify, ~$0.08/run): [Yes / No — default No]
 ```
 
-The education, experience, and skills sections should be pre-filled from the parsed resume. The user only needs to provide the job-specific preferences (roles, salary, location, filters).
+The education, experience, and skills sections should be pre-filled from the parsed resume. The user only needs to provide the job-specific preferences (roles, salary, location, filters). The LinkedIn search option should only be set to Yes if the user has Apify tools available and explicitly opts in.
 
 If they leave something out, that's fine — save what you have. They can always update later.
 

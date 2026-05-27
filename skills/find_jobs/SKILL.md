@@ -160,41 +160,74 @@ Use these domains in Step 6 to navigate directly to employer career pages.
 
 **Note:** Hiring.cafe is just a search tool. Don't share hiring.cafe links with the user — resolve direct employer URLs in Step 6.
 
-#### Source B: Google Jobs
+#### Source B: Work at a Startup (YC)
 
-Navigate to Google Jobs using the direct URL format:
+Covers early-stage YC startups that typically don't appear on major job boards. Uses browser automation — the site is a Rails + Algolia app with Tailwind classes.
+
+**Building the search URL:**
 
 ```
-https://www.google.com/search?q=[role]+jobs+[location]&ibp=htl;jobs
+https://www.workatastartup.com/jobs?role=[role_code]&type=any&hasEquity=any&industry=any&minSalary=0
 ```
 
-The `ibp=htl;jobs` parameter opens the Jobs tab directly. For each search term, build the URL with the role and location from preferences.
+Role codes: `eng` (Engineering), `design` (Design), `product` (Product), `sales` (Sales), `marketing` (Marketing), `ops` (Operations), `data` (Data Science). Map the candidate's target roles to the appropriate code. For multiple roles, use separate searches.
 
-**Applying filters:** After the page loads, use `read_page` or `find` to locate filter chips for date posted (e.g., "Past week") and job type (e.g., "Full-time"). Click the relevant filters.
+**For each search term:** Navigate to the URL and wait for the page to load (3-4 seconds).
 
-**Extracting results:** Google Jobs renders structured job cards. Extract them with `javascript_tool`:
+**Extracting results** with `javascript_tool` — the site renders up to 30 job cards without sign-in:
 
 ```javascript
-Array.from(document.querySelectorAll('li'))
-  .map(el => {
-    const title = el.querySelector('[role="heading"]')?.innerText || '';
-    const rest = el.innerText.replace(title, '').trim();
-    return title ? `${title} | ${rest}` : '';
-  })
-  .filter(t => t.length > 20 && t.length < 500)
-  .slice(0, 30)
-  .join('\n---\n')
+const cards = document.querySelectorAll('div[class*="cursor-pointer"][class*="rounded"][class*="border"]');
+Array.from(cards).map(card => {
+  const company = card.querySelector('.font-bold')?.innerText?.trim() || '';
+  const detailsText = card.querySelector('.job-details')?.innerText?.trim() || '';
+  const salaryMatch = detailsText.match(/\$[\d,]+K?\s*-\s*\$[\d,]+K?/);
+  const isRemote = detailsText.includes('Remote');
+  // Title: text between company info and job-details
+  const companyDesc = card.querySelector('.text-sm.text-gray-700')?.innerText?.replace(company, '')?.trim() || '';
+  const allText = card.innerText;
+  const compEnd = allText.indexOf(companyDesc) + companyDesc.length;
+  const detStart = allText.indexOf(detailsText);
+  const title = allText.substring(compEnd, detStart).trim();
+  return { company, title, salary: salaryMatch?.[0] || '', remote: isRemote, details: detailsText.substring(0, 120) };
+}).filter(j => j.title);
 ```
 
-If the selector doesn't match, take a screenshot to understand the current DOM structure and write a targeted selector. Google's DOM changes periodically — adapt as needed.
+This returns structured data with company (including YC batch), title, salary range, and location. Nearly every listing includes salary data.
 
-**Getting descriptions:** Click a job card to expand its details panel on the right side of the page. Extract the description from the panel with `javascript_tool` (target the detail/description pane, not the full page). This is cheaper than navigating to the employer page.
+**Why this source matters:** YC startups — especially recent batches (W26, F25, P26) — often post *only* here. Roles like "Founding Engineer," "Forward Deployed Engineer," and "Product Engineer" at 5-person companies won't appear on hiring.cafe.
 
-**Note:** Google Jobs aggregates from Indeed, LinkedIn, Glassdoor, ZipRecruiter, and company career pages — it often surfaces jobs that hiring.cafe misses.
+**Fallback:** If the page doesn't load or returns 0 cards, skip — the site occasionally has downtime.
+
+#### Source C: LinkedIn via Apify (Optional)
+
+LinkedIn is the largest pool of exclusive job postings that hiring.cafe cannot access. This source uses the Apify `curious_coder/linkedin-jobs-scraper` actor and costs ~$0.001/result.
+
+**Only run this source if:**
+- The user has Apify MCP tools available in their environment
+- The candidate's preferences include `linkedin_search: true` (or the user explicitly asks for LinkedIn results)
+
+**Running the actor:** Use `call-actor` with the actor name `curious_coder/linkedin-jobs-scraper`. First fetch the input schema with `fetch-actor-details`, then call with:
+
+```json
+{
+  "searchQueries": ["[role] [location]"],
+  "location": "[city or 'Remote']",
+  "jobType": ["Full-time"],
+  "experienceLevel": ["Entry level", "Associate", "Mid-Senior level"],
+  "limit": 25
+}
+```
+
+Map the candidate's seniority preference to LinkedIn's experience levels. Run one query per direct search term (skip wildcards — LinkedIn's search is already broad).
+
+**Processing results:** The actor returns structured JSON with title, company, location, salary (when listed), description, and apply URL. No DOM scraping needed.
+
+**Cost awareness:** At $0.001/result, a typical search (3-4 queries × 25 results) costs ~$0.08. Mention the cost to the user the first time this source runs.
 
 #### Deduplication
 
-After collecting from both sources, deduplicate by matching company name + job title (fuzzy — e.g., "Google" = "Google LLC"). Keep the entry with more data (salary, description). Note which source each job came from.
+After collecting from all sources, deduplicate by matching company name + job title (fuzzy — e.g., "Google" = "Google LLC"). Keep the entry with more data (salary, description). Note which source each job came from.
 
 ### Step 3: Title Pre-Screen
 
@@ -224,14 +257,17 @@ Append ALL jobs to `DATA_DIR/job-history.md`:
 ### Step 6: Resolve Employer URLs & Save Top Postings
 
 For each **High-fit** job:
-1. Click through the hiring.cafe listing to reach the actual employer careers page
+1. **Resolve the direct employer URL:**
+   - **Hiring.cafe jobs** — use the apply domain extracted in Source A to navigate to the employer careers page. Never show hiring.cafe URLs to the user.
+   - **WaaS jobs** — click through the listing on workatastartup.com to reach the startup's application page. WaaS links often go directly to the company.
+   - **LinkedIn jobs** — the Apify results include direct apply URLs. Use those.
 2. Capture the direct employer URL for the job posting
 3. Extract the job description using `javascript_tool` to pull the posting content (e.g. `document.querySelector('[class*="description"], [class*="content"], article, main')?.innerText`). Do NOT use `get_page_text` — employer pages often have huge footers, navs, and related listings that bloat the output and can blow out the context window.
 4. Save to `DATA_DIR/jobs/[company-slug]-[date]/posting.md` with the employer URL at the top
 
 For **Medium-fit** jobs, try to resolve the employer URL but don't save the full posting.
 
-If you can't resolve the direct link for a job, note the company name so the user can find it themselves. Never show hiring.cafe URLs to the user.
+If you can't resolve the direct link for a job, note the company name so the user can find it themselves.
 
 ### Step 7: Present Results
 
@@ -365,7 +401,8 @@ Add to `~/.claude/settings.json`:
       "Write(~/.see/**)",
       "Edit(~/.see/**)",
       "Bash(crontab *)",
-      "mcp__claude-in-chrome__*"
+      "mcp__claude-in-chrome__*",
+      "mcp__Apify__*"
     ]
   }
 }
