@@ -1,0 +1,13 @@
+{
+  "name": "see",
+  "description": "AI-powered job search, resume tailoring, and cover letter writing",
+  "version": "2.0.0",
+  "author": {
+    "name": "Seek Employment Expeditiously",
+    "url": "https://github.com/fb443/seek-employment-expeditiously"
+  },
+  "homepage": "https://github.com/fb443/seek-employment-expeditiously",
+  "repository": "https://github.com/fb443/seek-employment-expeditiously",
+  "license": "MIT",
+  "keywords": ["job-search", "resume", "cover-letter", "career", "apply"]
+}

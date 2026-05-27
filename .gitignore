@@ -1,0 +1,12 @@
+# Legacy asset data (from before shared data directory)
+skills/find_jobs/assets/job-history.md
+skills/find_jobs/assets/matching-rules.md
+skills/find_jobs/assets/resume/
+skills/find_jobs/logs/
+skills/generate_cover_letter/assets/cover-letters/
+
+# OS files
+.DS_Store
+
+# Claude internal
+.claude/
