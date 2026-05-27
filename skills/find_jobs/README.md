@@ -1,10 +1,10 @@
 # Job Search Skill for Claude Code
 
-An automated job search skill that uses browser automation to find and evaluate job listings from [hiring.cafe](https://hiring.cafe) and [Google Jobs](https://www.google.com/search?q=jobs&ibp=htl;jobs).
+An automated job search skill that finds and evaluates job listings across multiple sources — [hiring.cafe](https://hiring.cafe), [Work at a Startup](https://www.workatastartup.com) (YC jobs), and optionally LinkedIn via Apify.
 
 ## Features
 
-- **Multi-source search** across hiring.cafe and Google Jobs
+- **Multi-source search** across hiring.cafe, YC's Work at a Startup, and LinkedIn (opt-in)
 - **Expanded search terms** — suggests skills-based and adjacent role queries beyond your stated targets
 - **Fit scoring** with numeric scores based on seniority, skills, experience, and preferences
 - **Smart filtering** based on salary, location, dealbreakers, and learned patterns
@@ -141,9 +141,10 @@ Ensure all permissions are in `~/.claude/settings.json` (see Installation step 3
 Make sure Chrome is running and Claude in Chrome extension is active.
 
 ### No jobs found
-- Check that hiring.cafe is accessible
+- Check that hiring.cafe and workatastartup.com are accessible
 - Try different search terms
 - Verify your matching rules aren't too restrictive
+- If LinkedIn is enabled, check that Apify MCP tools are connected
 
 ## License
 
