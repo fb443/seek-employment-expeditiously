@@ -7,10 +7,10 @@ A Claude Code plugin that searches for jobs, improves and customizes your resume
 | Skill | Command | Description |
 |-------|---------|-------------|
 | [Create Profile](./skills/create_profile/) | `/see:create_profile` | One-time onboarding: resume, preferences, and work history interview |
-| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Search hiring.cafe and Google Jobs, score and rank matches, save top postings |
+| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Search online aggregators and company sites, score and rank matches, save top postings |
 | [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Rewrite your resume for a specific job posting using your work history |
 | [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write a cover letter that connects your achievements to the employer's needs |
-| [Apply](./skills/apply/) | `/see:apply` | Tailor resume, generate cover letter, and fill the application form end-to-end |
+| [Apply](./skills/apply/) | `/see:apply` | Tailor resume, generate cover letter, and fill the application form end-to-end autonomously |
 | [Track Applications](./skills/track_applications/) | `/see:track_applications` | Dashboard, pipeline analysis, and feedback to improve future searches |
 
 ## How They Work Together
