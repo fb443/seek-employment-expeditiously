@@ -49,6 +49,7 @@ Read these files:
 - Weight search terms toward liked patterns (e.g., if user liked product-oriented roles, prioritize those keywords)
 - Adjust the display threshold if feedback shows Medium-scored results were consistently disliked
 - Refine title interpretation (e.g., if user said "Growth Lead is really marketing," filter those more carefully by reading descriptions before scoring)
+- **Inform wildcard generation** — if there's a "Wildcard Hits" section, use it to shape Step 1b wildcards. When a user liked an unexpected result, that tells you what lateral directions they're open to. Generate more wildcards in that vein and fewer in directions they've rejected.
 
 Extract search terms from:
 1. `$ARGUMENTS` if provided
@@ -56,31 +57,41 @@ Extract search terms from:
 
 ### Step 1b: Expand Search Terms
 
-Generate additional search queries beyond the candidate's stated target roles. Build three categories of search terms:
+Generate additional search queries beyond the candidate's stated target roles. Build four categories of search terms:
 
 **Direct searches** — The target roles from preferences or `$ARGUMENTS` as-is.
 
-**Skills-based searches** — Combine the candidate's top 2-3 core skills (from the profile's skills inventory) into queries without a job title. For example, if the candidate's core skills are Python (8yr), Kubernetes (5yr), and distributed systems (6yr), generate queries like:
-- `Python Kubernetes distributed systems`
-- `Python infrastructure`
-- `Kubernetes platform`
+**Skills-based searches** — Pair the candidate's technical skills with a different domain, function, or soft skill to surface hybrid roles. Don't just concatenate top skills — cross them with something unexpected. For example, if the candidate knows Python and has strong writing skills:
+- `Python + financial modeling` (not just "Python engineer")
+- `data analysis + content strategy`
+- `engineering + customer-facing`
+- `backend + developer education`
 
-Use the highest-experience core skills. Limit to 2-3 skills-based queries to avoid noise.
+The goal is to find roles at the intersection of two things the candidate is good at, not roles that just need their #1 skill. Limit to 2-3 queries.
 
-**Adjacent role searches** — Based on the candidate's skill set, experience level, and career trajectory, infer 2-3 role titles they may not have considered but would be qualified for. Think about:
-- What roles combine this person's skills in a non-obvious way?
-- What roles do people with this background commonly transition into?
-- Are there emerging roles that map well to this skill set?
+**Adjacent role searches** — Role titles the candidate wouldn't search for but is qualified for. Push past the obvious career ladder. Think about:
+- What roles exist at the *intersection* of this person's skills that don't appear in their target list?
+- What do people with this background get *recruited* into, not just promoted into?
+- What roles have misleading titles that actually match this person's skill set?
 
-For example, a senior backend engineer with strong data skills might get: "ML Infrastructure Engineer", "Developer Experience Engineer", "Platform Reliability Engineer".
+For example, a CS student targeting "Software Engineer" might also fit: "Solutions Engineer" (technical + communication), "Revenue Operations Analyst" (data + business logic), "Technical Program Manager" (engineering context + coordination). Limit to 2-3.
 
-Present the expanded search terms to the user before searching:
+**Wildcard searches** — 3-4 genuinely lateral queries that break out of the candidate's field entirely. These should feel like a stretch. Think about:
+- What *industries outside their current one* need exactly this skill set? A data analyst in tech might thrive as a "Research Associate" at a policy think tank or a "Quantitative Strategist" at a media company.
+- What *emerging or non-standard titles* describe work this person could do? "Founding Engineer," "Growth Hacker," "Creative Technologist," "AI Trainer," "Technical Writer."
+- What roles exist at startups where one person wears many hats and this candidate's combination of skills is unusually valuable?
+- If `feedback.md` contains a "Wildcard Hits" section (see Step 9), lean into those patterns — they reveal what lateral directions the user is actually open to.
+
+Don't play it safe here. The user can always remove wildcards they don't like, but they can't discover roles they never searched for.
+
+Present all four categories to the user before searching:
 
 ```
 Searching for:
 - Direct: [target roles]
-- Skills-based: [generated queries]
-- Adjacent: [suggested roles]
+- Skills-based: [cross-domain queries]
+- Adjacent: [non-obvious role titles]
+- Wildcards: [lateral/creative queries]
 ```
 
 The user can remove any they don't want. If no feedback, proceed with all.
@@ -265,6 +276,7 @@ This ensures `/see:track_applications` picks up manually-submitted applications.
    - Which results they liked and why (these reinforce current scoring)
    - Which results they disliked and why (these identify scoring gaps)
    - Pattern observations (e.g., "roles with 'Growth' in the title at agencies are marketing, not product growth")
+   - **Wildcard hits** — if the user liked a result that came from a wildcard or adjacent search, note it in a "Wildcard Hits" section with what made it appealing. This feeds back into Step 1b wildcard generation on future runs.
 
 Format for `feedback.md` entries:
 
@@ -280,6 +292,10 @@ Format for `feedback.md` entries:
 
 ### Patterns
 - [observation that should adjust future scoring]
+
+### Wildcard Hits
+- [Role] at [Company] — surfaced via [wildcard query]. User liked it because: [reason]
+  → Generate more wildcards in this direction: [what made it appealing]
 ```
 
 If `DATA_DIR/feedback.md` doesn't exist, create it with a header:
