@@ -1,6 +1,6 @@
 # Seek Employment eXpeditiously (SEE)
 
-A Claude Code plugin that searches for jobs, improves and customizes your resume, writes cover letters, fills out applications, and learns what you want over time.
+Your AI-powered job search copilot. SEE finds jobs across multiple sources, tailors your resume for each role, writes targeted cover letters, fills out applications on Greenhouse, Lever, and Workday, and tracks your entire pipeline — all from Claude. It gets smarter every run: your feedback fine-tunes scoring, filters, and search terms so results improve over time.
 
 ## Skills
 

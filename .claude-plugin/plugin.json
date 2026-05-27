@@ -1,6 +1,6 @@
 {
   "name": "see",
-  "description": "Search for jobs, tailor your resume, write cover letters, fill out applications, and track your pipeline — learns what you want over time",
+  "description": "Your AI job search copilot — finds roles, tailors resumes, writes cover letters, fills applications on Greenhouse/Lever/Workday, and tracks your pipeline. Gets smarter with every search.",
   "version": "2.0.0",
   "author": {
     "name": "Finn Buckley",

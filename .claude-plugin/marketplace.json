@@ -1,11 +1,11 @@
 {
   "name": "see",
   "owner": {
-    "name": "Seek Employment Expeditiously",
+    "name": "Finn Buckley",
     "email": "ftb24@cornell.edu"
   },
   "metadata": {
-    "description": "AI-powered job search, resume tailoring, and cover letter writing"
+    "description": "Your AI job search copilot — finds roles, tailors resumes, writes cover letters, fills applications on Greenhouse/Lever/Workday, and tracks your pipeline. Gets smarter with every search."
   },
   "plugins": [
     {
@@ -14,10 +14,10 @@
         "source": "github",
         "repo": "fb443/seek-employment-expeditiously"
       },
-      "description": "AI-powered job search, resume tailoring, and cover letter writing",
+      "description": "Your AI job search copilot — finds roles, tailors resumes, writes cover letters, fills applications on Greenhouse/Lever/Workday, and tracks your pipeline. Gets smarter with every search.",
       "version": "2.0.0",
       "author": {
-        "name": "Seek Employment Expeditiously"
+        "name": "Finn Buckley"
       },
       "repository": "https://github.com/fb443/seek-employment-expeditiously",
       "license": "MIT",
