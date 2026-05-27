@@ -34,9 +34,9 @@ Resolve the data directory using `shared/references/data-directory.md`. For setu
 
 ### Step 0: Check What's Already Done
 
-Resolve the data directory, then check which of these exist and have real content (not just templates): resume, preferences, linkedin-contacts.csv, profile.md.
+Resolve the data directory, then check which of these exist and have real content (not just templates): resume, preferences, profile.md.
 
-If `$ARGUMENTS` is "interview", skip to Step 3 (but check that a resume exists first).
+If `$ARGUMENTS` is "interview", skip to Step 3 (but check that a resume exists first). If `$ARGUMENTS` is empty, run Steps 1-3 in order.
 
 If everything exists, tell the user they're good to go and list the available skills. Otherwise, run only the missing phases in order.
 
@@ -168,26 +168,7 @@ The education, experience, and skills sections should be pre-filled from the par
 
 If they leave something out, that's fine — save what you have. They can always update later.
 
-### Step 3: LinkedIn Contacts (optional)
-
-If `DATA_DIR/linkedin-contacts.csv` doesn't exist, ask:
-
-> "Want to import your LinkedIn contacts? This lets us flag when you know someone at a company that's hiring. You can skip this and add them later."
-
-If they want to proceed, give these instructions:
-
-> **How to export your LinkedIn connections:**
-> 1. Go to linkedin.com/mypreferences/d/download-my-data
-> 2. Select "Connections" and request the download
-> 3. LinkedIn will email you a link (usually within minutes)
-> 4. Download the ZIP and find `Connections.csv` inside
-> 5. Upload or paste the path to that file here
-
-Save the file as `DATA_DIR/linkedin-contacts.csv`.
-
-Confirm it was saved and tell them how many contacts were imported. If they skip, move on — this is optional.
-
-### Step 4: Work History Interview
+### Step 3: Work History Interview
 
 Have a conversational interview to build a comprehensive work history profile. Use the parsed resume data from Step 1 as your starting point — you already know titles, dates, and extracted skills, so don't re-ask for basics.
 
@@ -243,14 +224,13 @@ After the interview, save the profile to `DATA_DIR/profile.md` using the templat
 
 Include these in the Cross-Role Patterns section as well — hidden experience often reveals the candidate's real strengths.
 
-### Step 5: Summary
+### Step 4: Summary
 
 ```
 You're all set! Here's what we have:
 
 - Resume: [filename] in DATA_DIR/resume/
 - Preferences: [summary of target roles and key criteria]
-- LinkedIn Contacts: [number] imported (or "skipped")
 - Work History Profile: [number of roles covered]
 
 You're ready to use:

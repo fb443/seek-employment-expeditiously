@@ -27,7 +27,6 @@ DATA_DIR/
   resume/              # Your resume PDF/DOCX
   preferences.md       # Job matching rules
   profile.md           # Work history from interview
-  linkedin-contacts.csv # LinkedIn connections (optional)
   jobs/                # Per-job application folders
   job-history.md       # Running log from find_jobs
   applications.md      # Aggregated application tracker

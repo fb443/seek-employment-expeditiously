@@ -42,7 +42,6 @@ Read these files:
 - `DATA_DIR/resume/*` (candidate profile)
 - `DATA_DIR/preferences.md` (preferences)
 - `DATA_DIR/job-history.md` (to avoid duplicates)
-- `DATA_DIR/linkedin-contacts.csv` (if it exists — for network matching)
 - `DATA_DIR/feedback.md` (if it exists — user feedback from `/see:track_applications`)
 
 **Apply feedback:** If `feedback.md` exists, read the patterns and adjustments before searching. Use these to:
@@ -198,8 +197,6 @@ If you can't resolve the direct link for a job, note the company name so the use
 
 Show only NEW High/Medium fits not in previous history.
 
-If LinkedIn contacts were loaded, cross-reference each result's company name against the "Company" column in the CSV. Use fuzzy matching (e.g. "Google" matches "Google LLC", "Alphabet/Google"). If there's a match, include the contact's name and title.
-
 ```markdown
 ## Top Matches for [DATE]
 
@@ -208,11 +205,8 @@ If LinkedIn contacts were loaded, cross-reference each result's company name aga
 - **Salary**: $XXXk
 - **Location**: Remote
 - **Why**: [reason]
-- **Network**: You know [First Last] ([Position]) at [Company]
 - **Apply**: [direct employer URL]
 ```
-
-Omit the "Network" line if there are no contacts at that company.
 
 ### Step 8: Next Steps
 

@@ -9,7 +9,6 @@ Check that required data files exist before proceeding. If any required file is 
 | `DATA_DIR/resume/*` | — | Required | Required | Required | Required | — |
 | `DATA_DIR/preferences.md` | — | Required | — | — | — | — |
 | `DATA_DIR/profile.md` | — | — | Recommended | Recommended | — | — |
-| `DATA_DIR/linkedin-contacts.csv` | — | — | — | — | — | — |
 | `DATA_DIR/application-data.md` | — | — | — | — | Created if missing | — |
 | `DATA_DIR/feedback.md` | — | Read if exists | — | — | — | Created if missing |
 
