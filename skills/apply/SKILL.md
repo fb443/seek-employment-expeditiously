@@ -137,30 +137,26 @@ Set up browser per `shared/references/browser-setup.md` (`tabs_context` → `tab
 
 Record these requirements — they determine what materials to generate in Step 4.
 
+**File upload early warning.** If the form requires file uploads (resume, cover letter), tell the user now — they'll need to attach files manually before submitting. Don't wait until after filling to mention this.
+
+**Write initial checkpoint** to `DATA_DIR/jobs/[job-folder]/applied.md` (see Checkpoint Format below).
+
 ### Step 4: Generate Missing Materials
 
 The goal is to have everything ready before filling, so the user does minimal work.
 
 **Always tailor the resume.** Check if `DATA_DIR/jobs/[job-folder]/resume.md` exists for this job:
 - If YES: the resume is already tailored for this role. Skip.
-- If NO: Run the tweak_resume skill inline. Follow the workflow in `skills/tweak_resume/SKILL.md` — use the job posting (already loaded), the original resume, and the work history profile to generate a tailored resume. Save to the job folder. Present it to the user for quick review before continuing.
+- If NO: Invoke the `tweak_resume` skill (`/see:tweak_resume`), passing the job folder path. The skill handles the full tailoring workflow (posting analysis, resume rewrite, user review) and saves to the job folder. Wait for it to complete before continuing.
 
 **Generate a cover letter only if the form requires one.** If the scout in Step 3 found a cover letter field:
 - Check if `DATA_DIR/jobs/[job-folder]/cover-letter.md` exists
 - If YES: already done. Skip.
-- If NO: Run the generate_cover_letter skill inline. Follow the workflow in `skills/generate_cover_letter/SKILL.md` — use the posting, tailored resume, and profile. Save to the job folder. Present it for quick review.
+- If NO: Invoke the `generate_cover_letter` skill (`/see:generate_cover_letter`), passing the job folder path. Wait for it to complete.
 
 **If the form doesn't have a cover letter field**, skip cover letter generation entirely.
 
-Tell the user what was generated:
-
-```
-Prepared for [Role] at [Company]:
-- Tailored resume: [generated / already existed]
-- Cover letter: [generated / already existed / not required by form]
-
-Ready to fill the application. Proceeding...
-```
+Tell the user what was generated (resume: generated/existed, cover letter: generated/existed/not required) and update the checkpoint.
 
 ### Step 5: Scan All Fields
 
@@ -195,35 +191,13 @@ Generate a proposed answer for every field using this priority:
 4. **Best guess** — for any remaining fields, generate a reasonable answer based on the field label and job context
 5. **Cannot determine** — only if truly ambiguous and no reasonable default exists
 
-Present ONE consolidated summary to the user:
+Present ONE consolidated summary to the user, grouped into four sections:
+- **Auto-fill from your data** — fields matched from application-data.md (name, email, phone, etc.)
+- **Proposed answers** — fields with reasonable defaults or best guesses, with explanations
+- **Needs your input** — only truly ambiguous fields (keep this section short or empty)
+- **Manual upload needed** — file paths for resume/cover letter uploads
 
-```
-Here's my plan for the [Company] application:
-
-**Auto-fill from your data:**
-- First Name: Jane
-- Last Name: Doe
-- Email: jane@example.com
-- Phone: 555-0123
-- LinkedIn: https://linkedin.com/in/janedoe
-...
-
-**Proposed answers (please review):**
-- Legal First Name: Jane (same as first name)
-- Electronic signature: Jane Doe
-- Arbitration agreement: Accept
-- Contract work: No
-- [Any other non-obvious fields]: [proposed answer]
-
-**Needs your input:**
-- [Only truly ambiguous fields, if any]
-
-**Manual upload needed:**
-- Resume: [file path]
-- Cover letter: [file path] (if applicable)
-
-Approve and I'll fill everything in. Or tell me what to change.
-```
+End with: "Approve and I'll fill everything in. Or tell me what to change."
 
 **Key principle:** Ask once, fill once. Do not interrupt with per-field questions. The only user interaction should be this single approval (plus the final submit confirmation in Step 8).
 
@@ -231,24 +205,22 @@ After the user approves (with any edits), cache any new answers in `DATA_DIR/app
 
 ### Step 7: Fill Form
 
-After approval, fill everything in one pass.
+After approval, update checkpoint and fill everything in one pass.
 
-**Delegate to the subagent.** Invoke `scripts/fill-page.md` with:
-- ATS type (lever/greenhouse/workday/unknown)
-- The approved field→value mapping (all answers, not just application data)
-- Tab ID
-- File paths for resume and cover letter uploads
-
-The subagent fills all fields on the current page, then returns what was filled and what remains.
+**Delegate to the subagent.** Invoke `scripts/fill-page.md` with the ATS type, approved field→value mapping, tab ID, and file paths for uploads. The subagent fills all fields on the current page, then returns what was filled and what remains.
 
 **For multi-page forms (Workday):**
 1. Fill current page → click "Save and Continue"
-2. If validation errors: read the errors, fix the fields, retry
+2. If validation errors: read the error messages, fix the flagged fields, retry once
 3. On the new page: scan fields (Step 5 logic), match against the approved answers, fill, advance
 4. Repeat until reaching the review page
 
-**File upload handling:**
-MCP tools can only upload images via `upload_image`. For PDF/DOCX resume and cover letter uploads, tell the user the file path and ask them to upload manually. This is a known limitation — include the path in the Step 6 summary so the user can upload while reviewing.
+**Validation error recovery (all ATS types):**
+After the subagent returns, check `fields_failed`. For each: try an alternative input method (click + type if form_input failed, or vice versa). If it still fails after one retry, tell the user which fields need manual input and where they are.
+
+**File uploads:** Remind the user to attach files manually (they were warned in Step 3). Provide exact file paths.
+
+Update checkpoint after filling.
 
 ### Step 8: Review Before Submit
 
@@ -264,31 +236,11 @@ Do NOT click Submit/Send until the user confirms.
 
 After submission (or if the user decides not to submit):
 
-Create `DATA_DIR/jobs/[company-slug]-[date]/applied.md`:
-
-```markdown
-# Application Log
-
-- **Date**: YYYY-MM-DD
-- **ATS**: Greenhouse/Lever/Workday
-- **Status**: Submitted / Draft (not submitted)
-- **Notes**: [any relevant notes]
-```
+Update checkpoint — mark "Submitted" as ✅ (or "Draft — not submitted") and set Status accordingly.
 
 Update `DATA_DIR/job-history.md` — find the entry for this job and append the application status and date.
 
-Present to user:
-
-```
-Applied to [Role] at [Company] on [date].
-Files saved to: DATA_DIR/jobs/[folder]/
-
-Next: /see:apply [next-job-url] (apply to another job)
-      /see:find_jobs (find more jobs)
-
-Built with Seek Employment Expeditiously (SEE).
-github.com/fb443/seek-employment-expeditiously
-```
+Present: confirmation of submission, file paths saved, and next action suggestions (`/see:apply`, `/see:find_jobs`).
 
 ---
 
@@ -323,16 +275,11 @@ Match form field labels (case-insensitive, fuzzy) to application data:
 
 ---
 
-## ATS-Specific Interaction Notes
+## Checkpoint Format
 
-**Lever**: `form_input` with value or text works directly for all field types including dropdowns.
+Written to `DATA_DIR/jobs/[job-folder]/applied.md`. Created in Step 3, updated after each major step. Uses ✅/⬜ markers for: Form navigated, Requirements scouted, Materials generated, Answers approved, Form filled, Submitted. Also tracks Date, ATS type, and Status (In Progress / Submitted / Draft).
 
-**Greenhouse**: `form_input` with value works after navigating to the direct form URL (outside the iframe).
-
-**Workday**:
-- `read_page(filter="interactive")` only returns viewport-visible elements. Must scroll top-to-bottom, calling `read_page` at each scroll position.
-- Radio buttons are NOT returned by `read_page` — use `find` tool or `computer` click at coordinates.
-- Dropdowns are `button` elements that open popup panels. Click the button → use `find` or `read_page` to locate options → click the option. For hierarchical dropdowns (like "How Did You Hear"), search within the popup using the Search textbox.
+If `applied.md` already exists with partial progress when the skill starts, resume from the last completed step instead of starting over.
 
 ---
 
