@@ -2,6 +2,18 @@
 
 Browser automation patterns for the three major Applicant Tracking Systems. Findings from live testing on real application forms.
 
+## ATS Detection
+
+Identify the ATS from the application URL before navigating:
+
+| URL contains | ATS |
+|---|---|
+| `boards.greenhouse.io` or page has `id="grnhse_iframe"` | Greenhouse |
+| `jobs.lever.co` | Lever |
+| `*.myworkdayjobs.com` or `*.wd*.myworkday.com` | Workday |
+
+If the URL doesn't match any pattern, take a screenshot after navigating and attempt to identify the form. If unrecognizable, tell the user and ask for guidance.
+
 ## Greenhouse
 
 **Embedding**: Cross-origin iframe (`id="grnhse_iframe"`) hosted at `job-boards.greenhouse.io`.
@@ -77,14 +89,16 @@ JSON.stringify({
 
 **Navigation**: "Save and Continue" button at bottom of each page. Clicking it with empty required fields shows an "Errors Found" box listing all missing fields with clickable links. The button becomes greyed out during validation.
 
-**Page 1 — My Information fields** (order top to bottom):
+**Page 1 — My Information** (typical fields, order varies by employer):
 1. How Did You Hear About Us?* — hierarchical dropdown with categories (e.g. "Job Board/Job Posting", "Social Media/Internet") and sub-options. Opens as a popup list; also has a Search textbox for filtering. Appears as `textbox "Search"` in `read_page`.
 2. Have you previously worked for this organization?* — Yes/No radio buttons. NOT visible to `read_page` interactive filter; must use `computer` click action at coordinates or `find` tool.
 3. Country* — button dropdown, pre-filled "United States of America". Appears as `button "Country United States of America Required"` in `read_page`.
 4. **Name section**: First Name* (textbox with suggestions button), Last Name* (textbox).
-5. **Address section**: Address Line 1, City, State (dropdown "Select One"), Postal Code. All optional on this Gartner form.
+5. **Address section**: Address Line 1, City, State (dropdown "Select One"), Postal Code. May be required or optional depending on the employer.
 6. **Email Address** — read-only, pre-filled from Workday account.
 7. **Phone section**: Phone Device Type* (dropdown "Select One Required"), Phone Number* (textbox).
+
+**Note**: Workday forms are heavily customized per employer. The fields above are common but not universal — some companies add custom questions, reorder sections, or require different fields. Always scan the actual form rather than assuming this layout.
 
 **Dropdown interaction pattern**: Workday dropdowns are `button` elements that open popup panels. For the "How Did You Hear About Us?" field, clicking reveals a hierarchical list where each category has a `>` arrow for sub-options, plus a Search textbox at the bottom. For simple dropdowns like "State" or "Phone Device Type", clicking the button opens a panel with options.
 
