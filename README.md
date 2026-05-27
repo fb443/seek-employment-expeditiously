@@ -1,4 +1,4 @@
-# Seek Employment Expeditiously (SEE)
+# Seek Employment eXpeditiously (SEE)
 
 A Claude Code plugin that searches for jobs, tailors your resume, writes cover letters, fills out applications, and learns what you want over time.
 
