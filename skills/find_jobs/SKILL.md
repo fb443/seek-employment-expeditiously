@@ -230,18 +230,37 @@ Built with Seek Employment Expeditiously (SEE).
 github.com/fb443/seek-employment-expeditiously
 ```
 
-### Step 9: Collect Feedback
+### Step 9: Collect Feedback and Log Applications
 
-After presenting results, **always ask** the user for quick feedback:
+After presenting results, **always ask** the user two things:
 
 ```
-Any of these off the mark? Tell me which ones you'd rather not see 
-and why — I'll adjust future searches.
+Did you apply to any of these (or plan to)? And were any off the mark?
+I'll track applications and adjust future searches.
 ```
 
 This is not optional — ask every time. The user can ignore it or say "looks good," but the prompt must happen.
 
-**When the user gives feedback** (either proactively or in response to the prompt):
+**When the user says they applied to a job:**
+
+For each job they applied to (or say they plan to apply to):
+1. Ensure a job folder exists at `DATA_DIR/jobs/[company-slug]-[date]/`. If one was already created in Step 6, use it. If not (e.g., a Medium-fit job), create it now and save whatever posting info was collected.
+2. Create `applied.md` in the job folder:
+
+```markdown
+# Application Log
+
+- **Date**: [date they applied, or today if "plan to"]
+- **ATS**: Manual (not via /see:apply)
+- **Status**: Submitted
+- **Notes**: Logged from /see:find_jobs results
+```
+
+3. Update `DATA_DIR/job-history.md` — find the entry for this job and note "Applied" in the Notes column.
+
+This ensures `/see:track_applications` picks up manually-submitted applications.
+
+**When the user gives feedback on results:**
 
 1. **Preference-level changes** → update `DATA_DIR/preferences.md` immediately:
    - "No agencies" → add to dealbreakers
@@ -290,7 +309,7 @@ Structure user-facing output with these sections:
 
 1. **Top Matches** — table or list of High/Medium fits with company, role, fit rating, salary, location, and direct URL
 2. **Next Steps** — suggest `/see:tweak_resume` and `/see:generate_cover_letter` for top matches
-3. **Feedback prompt** — always end with the feedback question from Step 9
+3. **Feedback & applications prompt** — always end with the combined question from Step 9 (applied to any? any off the mark?)
 
 ---
 

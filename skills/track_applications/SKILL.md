@@ -221,11 +221,13 @@ Present the current tracker table. Ask the user what changed. Accept natural lan
 - "Withdrawing from Airbnb"
 - "Notion wants a second interview"
 - "Got an offer from Figma — $120k base"
+- "I applied to Datadog yesterday"
+- "Applied to that Stripe role from last search"
 
 Parse each update:
-1. Match to an existing application (fuzzy match on company name)
-2. Update status in `DATA_DIR/applications.md`
-3. Update the matching `DATA_DIR/jobs/[folder]/applied.md`
+1. Match to an existing application (fuzzy match on company name against `DATA_DIR/jobs/` folders and `job-history.md`)
+2. **If the job is already tracked**: Update status in `DATA_DIR/applications.md` and the matching `DATA_DIR/jobs/[folder]/applied.md`
+3. **If the job is NOT yet tracked** (e.g., "I applied to Datadog"): Create a job folder at `DATA_DIR/jobs/[company-slug]-[date]/` with an `applied.md`. If the job appears in `job-history.md`, pull whatever details exist (title, link). If not, ask the user for the role title and URL.
 4. Recalculate follow-up dates
 
 When a status changes, suggest the natural next action:
