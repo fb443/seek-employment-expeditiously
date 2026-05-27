@@ -36,7 +36,7 @@ create_profile (one-time)
 5. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
 6. **`/see:track_applications`** shows where every application stands, computes your funnel (found → applied → response → interview → offer), diagnoses where things are stuck, and suggests what to change. You can also review past search results you didn't comment on at the time.
 
-**The search gets smarter over time.** Every time you tell `find_jobs` which results were off the mark, it updates your preferences and adjusts scoring. `track_applications` adds pipeline-level insight — if your response rate is low, it tells you the resume might need work; if interviews aren't converting, it points you toward prep instead of more applications.
+**The search gets smarter over time.** Every time you tell `find_jobs` which results were off the mark, it updates your preferences and adjusts scoring. `track_applications` adds pipeline-level insight: if your response rate is low, it can identify possible causes from your resume and materials and suggest fixes; if interviews aren't converting, it points you toward prep instead of more applications.
 
 All skills share a `~/.see/` directory for personal files. Each job application gets its own folder containing the posting, tailored resume, and cover letter.
 
