@@ -104,30 +104,59 @@ Search for jobs across multiple sources and merge results. Deduplicate by compan
 
 #### Source A: Hiring.cafe
 
-Use Claude in Chrome MCP tools per `shared/references/browser-setup.md`, navigating to https://hiring.cafe. For each search term:
+Use Claude in Chrome MCP tools per `shared/references/browser-setup.md`. Hiring.cafe uses Next.js SSR — structured job data is embedded in `window.__NEXT_DATA__` on every search page, so extract from there instead of scraping the DOM.
 
-1. Click the search input (`textbox "Search"`), type the query, and press Enter
-2. The site may show a "Did you mean?" bar with AI-suggested Department and Role Type — click **Accept All** if the suggestions are reasonable, or dismiss with **Reject All**
-3. **Apply filters** from the candidate's preferences using the filter buttons in the toolbar. Click each button to open its Chakra popover, select the appropriate values, and click Apply:
-   - **Experience** → Set Seniority (Entry/Mid/Senior) and Role Type (IC/Manager) to match the candidate's target level. Set Years of Experience if the candidate has a specific range.
-   - **Education** → Set if the candidate wants to filter for roles matching their education level
-   - **Salary** → Set minimum salary from preferences
-   - **Commitment** → Set to Full Time, Part Time, etc. per preferences
-   - **Industry** → Set if the candidate has target industries
-   - **Location selector** (top bar) → Set Remote/Hybrid/Onsite and country per preferences
-4. For skills-based and adjacent role searches, clear the previous search and re-enter the new query — but keep the same filters applied
+**Building the search URL:** Construct URLs with these parameters (the only ones that actually filter server-side):
 
-Extract job listings using `javascript_tool`:
-
-```javascript
-Array.from(document.querySelectorAll('[class*="job"], [class*="listing"], [class*="card"], tr, [role="listitem"]'))
-  .slice(0, 50)
-  .map(el => el.innerText.trim())
-  .filter(t => t.length > 20 && t.length < 500)
-  .join('\n---\n')
+```
+https://hiring.cafe/?searchState={"searchQuery":"[query]","departments":["[dept]"],"roleTypes":["[type]"]}
 ```
 
-If that selector doesn't match, take a screenshot to understand the page structure, then write a targeted JS selector. The goal is to extract just the listing rows (title, company, location, salary) — never the full page. As a fallback, use `read_page` (NOT `get_page_text`).
+- `searchQuery` — the search term
+- `departments` — array of department filters. Common values: `"Software Development"`, `"Data & Analytics"`, `"Product"`, `"Design"`, `"Sales"`, `"Marketing"`, `"Operations"`, `"Finance"`
+- `roleTypes` — array: `"Individual Contributor"`, `"Manager"`, `"Executive"`
+
+Map the candidate's preferences to `departments` and `roleTypes`. Other filters (salary, seniority, commitment, location) are **not supported via URL** — apply those in our scoring logic instead.
+
+**For each search term:** Navigate to the constructed URL and wait for the page to load.
+
+**Extracting results** with `javascript_tool`:
+
+```javascript
+const hits = (window.__NEXT_DATA__?.props?.pageProps?.ssrHits || []);
+hits.filter(h => !h.is_hc_pinned).slice(0, 25).map(h => {
+  const v5 = h.v5_processed_job_data || {};
+  const co = h.enriched_company_data || {};
+  const ji = h.job_information || {};
+  return {
+    t: ji.title || h.hc_title,
+    co: co.name,
+    sMin: v5['yearly_min_compensation'],
+    sMax: v5['yearly_max_compensation'],
+    sen: v5['seniority_level'],
+    wp: v5['workplace_type'],
+    city: v5['workplace_city'],
+    st: v5['workplace_state'],
+    emp: co['num_employees'],
+    dept: v5['department']
+  };
+});
+```
+
+This returns structured data directly — no DOM scraping needed. Promoted listings (`is_hc_pinned: true`) are ads; filter them out.
+
+**Resolving employer URLs:** Extract apply domains separately (full URLs trigger a security filter):
+
+```javascript
+hits.filter(h => !h.is_hc_pinned).slice(0, 25).map(h => {
+  const raw = h.v5_processed_job_data?.apply_url || h.job_information?.url || '';
+  try { return new URL(raw).hostname; } catch { return ''; }
+});
+```
+
+Use these domains in Step 6 to navigate directly to employer career pages.
+
+**Fallback:** If `__NEXT_DATA__` is empty or the page doesn't load within 15 seconds, take a screenshot to diagnose. If hiring.cafe is down, skip to Source B — don't waste time retrying.
 
 **Note:** Hiring.cafe is just a search tool. Don't share hiring.cafe links with the user — resolve direct employer URLs in Step 6.
 
