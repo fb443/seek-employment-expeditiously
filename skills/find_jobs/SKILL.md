@@ -230,17 +230,57 @@ Built with Seek Employment Expeditiously (SEE).
 github.com/fb443/seek-employment-expeditiously
 ```
 
-### Step 9: Learn from Feedback
+### Step 9: Collect Feedback
 
-If the user provides immediate feedback on results, update `DATA_DIR/preferences.md`:
-- "No agencies" → add to dealbreakers
-- "Prefer AI companies" → add to nice-to-haves
-- "Minimum $350k" → update salary threshold
+After presenting results, **always ask** the user for quick feedback:
 
-Also check `DATA_DIR/feedback.md` if it exists. This file is maintained by `/see:track_applications feedback` and contains structured feedback from past searches — patterns the user liked/disliked, scoring adjustments, and search term refinements. Apply these when filtering and scoring results.
+```
+Any of these off the mark? Tell me which ones you'd rather not see 
+and why — I'll adjust future searches.
+```
 
-After presenting results, remind the user:
-- "Run `/see:track_applications feedback` later to review these results and help me find better matches next time."
+This is not optional — ask every time. The user can ignore it or say "looks good," but the prompt must happen.
+
+**When the user gives feedback** (either proactively or in response to the prompt):
+
+1. **Preference-level changes** → update `DATA_DIR/preferences.md` immediately:
+   - "No agencies" → add to dealbreakers
+   - "Prefer AI companies" → add to nice-to-haves
+   - "Minimum $350k" → update salary threshold
+
+2. **Scoring-level feedback** → append to `DATA_DIR/feedback.md`:
+   - Which results they liked and why (these reinforce current scoring)
+   - Which results they disliked and why (these identify scoring gaps)
+   - Pattern observations (e.g., "roles with 'Growth' in the title at agencies are marketing, not product growth")
+
+Format for `feedback.md` entries:
+
+```markdown
+## [DATE] — Feedback on search results
+
+### Liked
+- [Role] at [Company] (score [X]) — [reason if given]
+
+### Disliked
+- [Role] at [Company] (score [X]) — Reason: [user's reason]
+  → Action: [what was updated in preferences or noted for scoring]
+
+### Patterns
+- [observation that should adjust future scoring]
+```
+
+If `DATA_DIR/feedback.md` doesn't exist, create it with a header:
+
+```markdown
+# Search Feedback
+
+Collected during /see:find_jobs to improve future searches.
+Read by find_jobs at Step 1 to adjust scoring and filtering.
+
+---
+```
+
+**If the user says "looks good" or gives no feedback**, don't write anything — just move on.
 
 ---
 
@@ -248,8 +288,9 @@ After presenting results, remind the user:
 
 Structure user-facing output with these sections:
 
-1. **Top Matches** — table or list of High/Medium fits with company, role, fit rating, salary, location, network contacts, and direct URL
+1. **Top Matches** — table or list of High/Medium fits with company, role, fit rating, salary, location, and direct URL
 2. **Next Steps** — suggest `/see:tweak_resume` and `/see:generate_cover_letter` for top matches
+3. **Feedback prompt** — always end with the feedback question from Step 9
 
 ---
 

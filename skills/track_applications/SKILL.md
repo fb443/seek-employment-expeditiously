@@ -261,13 +261,15 @@ Find the job folder matching `$ARGUMENTS` (fuzzy match on company name or folder
 **Next action**: [what to do based on current status]
 ```
 
-### Step 8: Feedback Review
+### Step 8: Feedback Review (retrospective)
 
-This step collects explicit feedback on past job search results to improve future searches. It writes to `DATA_DIR/feedback.md` and updates `DATA_DIR/preferences.md`.
+Most feedback is collected inline during `/see:find_jobs` (Step 9 of that skill). This step is for **retrospective review** — going back through results the user didn't comment on at the time, or revisiting after they've had time to think.
+
+It reads and writes `DATA_DIR/feedback.md` (the same file find_jobs uses) and updates `DATA_DIR/preferences.md`.
 
 **Present recent results for review:**
 
-Pull the last 2-3 search runs from `DATA_DIR/job-history.md`. For each batch, show the High and Medium fits:
+Pull the last 2-3 search runs from `DATA_DIR/job-history.md`. Skip results that already have feedback entries in `feedback.md`. For each remaining batch, show the High and Medium fits:
 
 ```
 From your [DATE] search, here are the jobs I showed you:
