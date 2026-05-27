@@ -400,7 +400,6 @@ Add to `~/.claude/settings.json`:
       "Read(~/.see/**)",
       "Write(~/.see/**)",
       "Edit(~/.see/**)",
-      "Bash(crontab *)",
       "mcp__claude-in-chrome__*",
       "mcp__Apify__*"
     ]

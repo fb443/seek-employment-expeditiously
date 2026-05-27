@@ -46,11 +46,6 @@ claude "/see:find_jobs AI infrastructure"
 claude "/see:find_jobs remote startup"
 ```
 
-### Run headless (for cron)
-```bash
-claude -p "/see:find_jobs"
-```
-
 ## File Structure
 
 **Plugin files:**
@@ -121,21 +116,7 @@ All jobs found are logged to `~/.see/job-history.md` with:
 
 This prevents showing you the same jobs twice and creates a searchable archive.
 
-## Cron Setup
-
-To run daily at 9am:
-
-```bash
-# Add to crontab
-(crontab -l 2>/dev/null; echo "0 9 * * * cd ~ && claude -p '/see:find_jobs' >> ~/.see/logs/find_jobs.log 2>&1") | crontab -
-```
-
-**Note**: Requires Chrome to be running with Claude in Chrome extension active.
-
 ## Troubleshooting
-
-### Permission prompts interrupting cron
-Ensure all permissions are in `~/.claude/settings.json` (see Installation step 3).
 
 ### Browser not responding
 Make sure Chrome is running and Claude in Chrome extension is active.
