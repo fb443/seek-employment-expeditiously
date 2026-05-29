@@ -41,7 +41,7 @@ create_profile (~5 min, required)
 6. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
 7. **`/see:track_applications`** shows where every application stands, computes your funnel (found → applied → response → interview → offer), diagnoses where things are stuck, and suggests what to change. You can also review past search results you didn't comment on at the time.
 
-**The search gets smarter over time.** Every time you tell `find_jobs` which results were off the mark, it updates your preferences and adjusts scoring. `track_applications` adds pipeline-level insight: if your response rate is low, it can identify possible causes from your resume and materials and suggest fixes; if interviews aren't converting, it points you toward prep instead of more applications.
+**Everything gets smarter over time.** Your feedback flows across skills: when you tell `find_jobs` which results were off the mark, it updates preferences and adjusts scoring. Those same preferences inform how `tweak_resume` and `generate_cover_letter` frame your experience — emphasizing the themes you're actually drawn to. When you edit a generated resume or cover letter before submitting, those corrections are captured and applied to future materials automatically. `track_applications` adds pipeline-level insight on top: if your response rate is low, it can identify possible causes and suggest fixes.
 
 All skills share a `~/.see/` directory for personal files. Each job application gets its own folder containing the posting, tailored resume, and cover letter.
 
@@ -147,6 +147,7 @@ seek-employment-expeditiously/
 ├── application-data.md                # Reusable form field answers
 ├── applications.md                    # Aggregated application tracker
 ├── feedback.md                        # Search feedback for improving future results
+├── style-feedback.md                  # Writing corrections from user edits to resumes/cover letters
 └── jobs/                               # One folder per application
     ├── google-lead-gpm-2026-02-11/
     │   ├── posting.md                  # Saved job description

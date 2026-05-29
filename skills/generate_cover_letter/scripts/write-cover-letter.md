@@ -13,6 +13,7 @@ You will receive:
 2. **Original Resume**: The candidate's current resume
 3. **Job Posting**: The target role details
 4. **Tailored Resume** (if available): The already-tailored resume for this role, which contains the match analysis and reframed bullets
+5. **Feedback Context** (optional): Patterns from the user's search feedback and style corrections — which themes excite them, what motivates them about certain roles, past edits they've made to generated cover letters
 
 ---
 
@@ -21,6 +22,10 @@ You will receive:
 2. **Extract 2-3 concrete achievements with measurable results** that directly address what the employer needs most.
 3. **Connect these accomplishments to the employer's specific challenges**, not just their general requirements.
 4. **Write as if you're explaining your value to a respected colleague over coffee** - natural, conversational, and straightforward.
+5. **If feedback context was provided**, use it to shape the letter's angle and voice:
+   - Liked themes from search feedback reveal what genuinely motivates the candidate — use these for the "why this role" narrative instead of inventing motivation
+   - Style corrections from past edits tell you what tone and structure the user actually wants — apply these preemptively
+   - If the user consistently rewrites openings, shortens paragraphs, or changes the level of formality, match their demonstrated preferences from the start
 
 ---
 

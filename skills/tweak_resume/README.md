@@ -8,6 +8,8 @@ Create tailored resumes that make you the obvious candidate for any specific job
 - **Intelligent tailoring** - rearranges, rewrites, and emphasizes the right experience
 - **Level-appropriate framing** - calibrates language and emphasis to match the role's seniority
 - **Assumption tracking** - flags guesses when no work history profile exists
+- **Feedback-informed framing** - reads your search feedback and preferences to emphasize themes you're drawn to
+- **Learns from your edits** - after each resume, asks what you changed. Your corrections are applied to future resumes automatically
 
 ## Prerequisites
 
@@ -55,10 +57,12 @@ tweak_resume/
 ## How It Works
 
 1. **Checks prerequisites** - resume must exist (via `/see:create_profile`); work history profile from `/see:enhance_profile` is recommended
-2. **Fetches the job posting** via browser automation
-3. **Maps your experience** to the job's requirements
-4. **Generates a tailored resume** with reordered bullets, rewritten descriptions, and a targeted summary
-5. **Saves the output** for your review and iteration
+2. **Loads feedback context** - reads search preferences, liked patterns, and past style corrections
+3. **Fetches the job posting** via browser automation
+4. **Maps your experience** to the job's requirements, informed by what themes you value
+5. **Generates a tailored resume** with reordered bullets, rewritten descriptions, and a targeted summary
+6. **Saves the output** for your review and iteration
+7. **Captures your edits** - asks what you changed before submitting, stores corrections for next time
 
 ## Tips
 
@@ -66,3 +70,4 @@ tweak_resume/
 - You can iterate on any generated resume - ask to adjust tone, emphasis, or specific bullets.
 - Tailored resumes are saved with the company name and date, so you can track what you've sent where.
 - The skill never fabricates experience - it reorganizes and reframes what's real.
+- Your search feedback matters here too: if you consistently like AI/ML roles in find_jobs, your resume will lead with ML-relevant accomplishments.

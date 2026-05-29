@@ -7,10 +7,11 @@ Check that required data files exist before proceeding. If any required file is 
 | File | create_profile | enhance_profile | find_jobs | tweak_resume | generate_cover_letter | apply | track_applications |
 |------|:--------------:|:---------------:|:---------:|:------------:|:---------------------:|:-----:|:------------------:|
 | `DATA_DIR/resume/*` | — | Required | Required | Required | Required | Required | — |
-| `DATA_DIR/preferences.md` | — | — | Required | — | — | — | — |
+| `DATA_DIR/preferences.md` | — | — | Required | Read if exists | Read if exists | — | — |
 | `DATA_DIR/profile.md` | — | — | — | Recommended | Recommended | — | — |
 | `DATA_DIR/application-data.md` | — | — | — | — | — | Created if missing | — |
-| `DATA_DIR/feedback.md` | — | — | Read if exists | — | — | — | Created if missing |
+| `DATA_DIR/feedback.md` | — | — | Read if exists | Read if exists | Read if exists | — | Created if missing |
+| `DATA_DIR/style-feedback.md` | — | — | — | Read if exists | Read if exists | — | — |
 
 ## Failure Messages
 

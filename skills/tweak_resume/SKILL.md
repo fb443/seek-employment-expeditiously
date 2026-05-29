@@ -36,6 +36,11 @@ Resolve the data directory using `shared/references/data-directory.md`.
 
 Resolve the data directory, then check prerequisites per `shared/references/prerequisites.md`. Resume is required; profile is strongly recommended. If the user proceeds without a profile, set a flag to present all assumptions for verification (see Step 3a below).
 
+Also read these optional files if they exist:
+- `DATA_DIR/preferences.md` — liked patterns, nice-to-haves, and valued themes inform which accomplishments to emphasize
+- `DATA_DIR/feedback.md` — search feedback reveals what the user values (e.g., "likes product-oriented roles" → lead with product accomplishments)
+- `DATA_DIR/style-feedback.md` — corrections from past resume/cover letter edits (e.g., "user always shortens summaries to 1 sentence" → write shorter summaries)
+
 If `$ARGUMENTS` is a URL, continue to Step 1.
 Otherwise, ask for a job URL.
 
@@ -77,6 +82,11 @@ Before writing, map the candidate's experience to the job:
 4. **Keyword alignment**: Identify the job posting's language and terminology to mirror in the resume.
 
 5. **Compelling narrative**: Determine the 2-3 sentence story of why this person is the obvious choice. What's the throughline?
+
+6. **Feedback-informed framing**: If `feedback.md` or `preferences.md` were loaded, use them to shape emphasis:
+   - If liked patterns mention specific themes (e.g., "product-oriented", "AI/ML", "startup culture"), lead with accomplishments that connect to those themes
+   - If nice-to-haves from preferences overlap with this job's attributes, highlight that alignment
+   - If `style-feedback.md` exists, apply its corrections preemptively (e.g., shorter summaries, different tone, preferred bullet structure)
 
 ### Step 2b: Fill Gaps with the Candidate
 
@@ -257,6 +267,50 @@ github.com/fb443/seek-employment-expeditiously
 - Any other clarification about roles, teams, or accomplishments
 
 This prevents the same mistakes on future resumes. If the profile is still a blank template, create a new one with whatever the user has told you so far. Use the structure from `shared/templates/profile.md` but fill in only what you know for certain.
+
+### Step 6: Capture Style Feedback
+
+After the user is satisfied (or if they mention making edits before submitting), ask:
+
+```
+One last thing — did you change anything in the resume before using it?
+Even small tweaks help me get it right next time.
+```
+
+If the user describes changes (or says no), process accordingly:
+
+**If they made changes**, categorize each edit and append to `DATA_DIR/style-feedback.md`:
+
+```markdown
+## [DATE] — Resume for [Role] at [Company]
+
+### Edits
+- [What they changed]: [What it was → what they changed it to]
+  → Pattern: [What this tells us about their preferences]
+
+### Applies to
+- tweak_resume
+```
+
+Look for recurring patterns across entries. Common categories:
+- **Tone**: "Made it less formal" / "Removed buzzwords" / "More technical language"
+- **Length**: "Cut summary to 1 sentence" / "Removed older role bullets"
+- **Structure**: "Moved Skills above Experience" / "Added a Projects section"
+- **Content**: "Always removes [type of bullet]" / "Always adds [type of detail]"
+- **Framing**: "Changed 'led' to 'built'" / "Prefers 'shipped' over 'delivered'"
+
+If `DATA_DIR/style-feedback.md` doesn't exist, create it with:
+
+```markdown
+# Style Feedback
+
+Corrections and preferences captured from user edits to generated resumes and cover letters.
+Read by /see:tweak_resume and /see:generate_cover_letter to avoid repeating the same mistakes.
+
+---
+```
+
+**If they say no changes** or skip, don't write anything.
 
 ---
 

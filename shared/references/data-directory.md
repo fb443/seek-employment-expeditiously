@@ -31,4 +31,5 @@ DATA_DIR/
   job-history.md       # Running log from find_jobs
   applications.md      # Aggregated application tracker
   feedback.md          # Search feedback for improving future results
+  style-feedback.md    # Writing style corrections from user edits to resumes/cover letters
 ```

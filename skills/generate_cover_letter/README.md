@@ -8,6 +8,8 @@ Write natural, persuasive cover letters tailored to specific job postings. Works
 - **Achievement-focused** - connects 2-3 measurable results to the employer's specific needs
 - **Strict honesty** - never fabricates or exaggerates any detail from the resume
 - **Works with tailored resumes** - leverages existing match analysis when available
+- **Feedback-informed motivation** - reads your search feedback to write genuine "why this role" narratives based on what actually excites you
+- **Learns from your edits** - after each letter, asks what you changed. Your corrections shape future cover letters automatically
 
 ## Prerequisites
 
