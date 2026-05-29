@@ -11,7 +11,7 @@ Create tailored resumes that make you the obvious candidate for any specific job
 
 ## Prerequisites
 
-See the [main README](../../README.md) for installation and prerequisites. Resume and profile must be set up via `/see:create_profile`.
+See the [main README](../../README.md) for installation and prerequisites. Resume must be set up via `/see:create_profile`. For much stronger tailored resumes, run `/see:enhance_profile` first.
 
 ## Usage
 
@@ -54,7 +54,7 @@ tweak_resume/
 
 ## How It Works
 
-1. **Checks prerequisites** - resume and work history profile must exist (via `/see:create_profile`)
+1. **Checks prerequisites** - resume must exist (via `/see:create_profile`); work history profile from `/see:enhance_profile` is recommended
 2. **Fetches the job posting** via browser automation
 3. **Maps your experience** to the job's requirements
 4. **Generates a tailored resume** with reordered bullets, rewritten descriptions, and a targeted summary

@@ -26,7 +26,7 @@ All paths in skill instructions use `DATA_DIR` to mean whichever `.see/` directo
 DATA_DIR/
   resume/              # Your resume PDF/DOCX
   preferences.md       # Job matching rules
-  profile.md           # Work history from interview
+  profile.md           # Work history from /see:enhance_profile interview
   jobs/                # Per-job application folders
   job-history.md       # Running log from find_jobs
   applications.md      # Aggregated application tracker

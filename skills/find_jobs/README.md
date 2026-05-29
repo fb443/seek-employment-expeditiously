@@ -1,16 +1,17 @@
 # Job Search Skill for Claude Code
 
-An automated job search skill that finds and evaluates job listings across multiple sources — [hiring.cafe](https://hiring.cafe), [Work at a Startup](https://www.workatastartup.com) (YC jobs), and optionally LinkedIn via Apify.
+An automated job search skill that finds and evaluates job listings using parallel subagents across structured APIs (Apify) and browser automation (Hiring.cafe, Google Jobs). Automatically detects which sources are available and searches them simultaneously.
 
 ## Features
 
-- **Multi-source search** across hiring.cafe, YC's Work at a Startup, and LinkedIn (opt-in)
+- **Parallel search** — runs all available sources concurrently via subagents, significantly faster than sequential search
+- **Multi-source coverage** across Apify Google Jobs Scraper, Hiring.cafe, and Google Jobs
+- **Smart source detection** — uses Apify for fast structured results when available, falls back to browser automation, offers to connect Apify if missing
 - **Expanded search terms** — suggests skills-based and adjacent role queries beyond your stated targets
 - **Fit scoring** with numeric scores based on seniority, skills, experience, and preferences
 - **Smart filtering** based on salary, location, dealbreakers, and learned patterns
 - **Job history tracking** to avoid showing duplicates
 - **Feedback loop** — after every search, asks what you thought. Your feedback updates preferences and adjusts future scoring automatically.
-- **Browser automation** via Claude in Chrome MCP
 
 ## Prerequisites
 
@@ -46,18 +47,46 @@ claude "/see:find_jobs AI infrastructure"
 claude "/see:find_jobs remote startup"
 ```
 
+### Run headless (for cron)
+```bash
+claude -p "/see:find_jobs"
+```
+
+## Architecture
+
+The skill uses **source-level parallelism** — each search source runs as an independent subagent:
+
+```
+SKILL.md (orchestrator)
+  ├── Load context & expand search terms
+  ├── Detect available sources
+  ├── Launch subagents in parallel:
+  │     ├── search-apify.md        (Apify Google Jobs Scraper)
+  │     ├── search-hiring-cafe.md  (browser: hiring.cafe)
+  │     └── search-google-jobs.md  (browser: Google Jobs)
+  ├── Merge & deduplicate results
+  ├── Score & rank (evaluate-jobs.md)
+  ├── Resolve employer URLs for top matches
+  └── Present results & collect feedback
+```
+
+Each subagent returns a standardized JSON array, making merge/dedup straightforward.
+
 ## File Structure
 
 **Plugin files:**
 ```
 find_jobs/
-├── SKILL.md                      # Main skill definition
+├── SKILL.md                      # Orchestrator
 ├── README.md                     # This file
 ├── assets/
 │   └── templates/                # Format templates (committed)
 │       └── job-entry.md          # Format for history entries
 └── scripts/
-    └── evaluate-jobs.md          # Job evaluation subagent
+    ├── search-apify.md           # Apify search subagent
+    ├── search-hiring-cafe.md     # Hiring.cafe browser subagent
+    ├── search-google-jobs.md     # Google Jobs browser subagent
+    └── evaluate-jobs.md          # Job scoring subagent
 ```
 
 **User data (at `~/.see/`):**
@@ -116,16 +145,30 @@ All jobs found are logged to `~/.see/job-history.md` with:
 
 This prevents showing you the same jobs twice and creates a searchable archive.
 
+## Cron Setup
+
+To run daily at 9am:
+
+```bash
+# Add to crontab
+(crontab -l 2>/dev/null; echo "0 9 * * * cd ~ && claude -p '/see:find_jobs' >> ~/.see/logs/find_jobs.log 2>&1") | crontab -
+```
+
+**Note**: Requires Chrome to be running with Claude in Chrome extension active.
+
 ## Troubleshooting
+
+### Permission prompts interrupting cron
+Ensure all permissions are in `~/.claude/settings.json` (see Installation step 3).
 
 ### Browser not responding
 Make sure Chrome is running and Claude in Chrome extension is active.
 
 ### No jobs found
-- Check that hiring.cafe and workatastartup.com are accessible
+- If using Apify: check your Apify account has available compute units
+- If using browser sources: check that hiring.cafe is accessible and Chrome is running
 - Try different search terms
 - Verify your matching rules aren't too restrictive
-- If LinkedIn is enabled, check that Apify MCP tools are connected
 
 ## License
 

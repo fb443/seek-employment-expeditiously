@@ -11,7 +11,7 @@ Write natural, persuasive cover letters tailored to specific job postings. Works
 
 ## Prerequisites
 
-See the [main README](../../README.md) for installation and prerequisites. Resume and profile must be set up via `/see:create_profile`.
+See the [main README](../../README.md) for installation and prerequisites. Resume must be set up via `/see:create_profile`. For stronger cover letters, run `/see:enhance_profile` first.
 
 ## Usage
 

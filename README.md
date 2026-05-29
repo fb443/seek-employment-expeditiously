@@ -6,8 +6,9 @@ Your AI-powered job search copilot. SEE finds jobs across multiple sources, tail
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| [Create Profile](./skills/create_profile/) | `/see:create_profile` | One-time onboarding: resume, preferences, and work history interview |
-| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Search hiring.cafe, YC startups, and LinkedIn (opt-in) — score, rank, and save top matches |
+| [Create Profile](./skills/create_profile/) | `/see:create_profile` | Quick setup: upload resume and set preferences (~5 min) |
+| [Enhance Profile](./skills/enhance_profile/) | `/see:enhance_profile` | Deep work history interview for better resumes and cover letters (~15 min) |
+| [Find Jobs](./skills/find_jobs/) | `/see:find_jobs` | Search online aggregators and company sites, score and rank matches, save top postings |
 | [Tweak Resume](./skills/tweak_resume/) | `/see:tweak_resume` | Rewrite your resume for a specific job posting using your work history |
 | [Generate Cover Letter](./skills/generate_cover_letter/) | `/see:generate_cover_letter` | Write a cover letter that connects your achievements to the employer's needs |
 | [Apply](./skills/apply/) | `/see:apply` | Tailor resume, generate cover letter, and fill the application form end-to-end autonomously |
@@ -16,12 +17,15 @@ Your AI-powered job search copilot. SEE finds jobs across multiple sources, tail
 ## How They Work Together
 
 ```
-create_profile (one-time)
+create_profile (~5 min, required)
        ↓
    find_jobs ←────────────────┐
        ↓                      │
-  tweak_resume                │ feedback improves
-       ↓                      │ future searches
+  enhance_profile (optional,  │ feedback improves
+  unlocks better materials)   │ future searches
+       ↓                      │
+  tweak_resume                │
+       ↓                      │
  generate_cover_letter        │
        ↓                      │
      apply                    │
@@ -29,12 +33,13 @@ create_profile (one-time)
  track_applications ──────────┘
 ```
 
-1. **`/see:create_profile`** uploads your resume, configures preferences, and conducts a work history interview (one-time setup)
+1. **`/see:create_profile`** uploads your resume and configures preferences — takes about 5 minutes, and you're ready to search
 2. **`/see:find_jobs`** searches multiple sources, suggests adjacent roles you might not have considered, scores each match, and saves the best postings. After showing results, it asks what you thought — your feedback is saved and applied to future searches automatically.
-3. **`/see:tweak_resume`** fetches the job posting, maps your experience to the requirements, fills gaps with you, and generates a tailored resume
-4. **`/see:generate_cover_letter last`** writes a cover letter connecting 2-3 of your achievements to the employer's specific needs
-5. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
-6. **`/see:track_applications`** shows where every application stands, computes your funnel (found → applied → response → interview → offer), diagnoses where things are stuck, and suggests what to change. You can also review past search results you didn't comment on at the time.
+3. **`/see:enhance_profile`** (optional but recommended) — a 15-minute interview that captures the accomplishments, motivations, and career narrative behind your resume. This is what makes tailored resumes and cover letters genuinely compelling instead of generic. You can do this anytime.
+4. **`/see:tweak_resume`** fetches the job posting, maps your experience to the requirements, fills gaps with you, and generates a tailored resume
+5. **`/see:generate_cover_letter last`** writes a cover letter connecting 2-3 of your achievements to the employer's specific needs
+6. **`/see:apply last`** generates any missing materials (resume, cover letter), then fills out the application form on Greenhouse, Lever, or Workday
+7. **`/see:track_applications`** shows where every application stands, computes your funnel (found → applied → response → interview → offer), diagnoses where things are stuck, and suggests what to change. You can also review past search results you didn't comment on at the time.
 
 **The search gets smarter over time.** Every time you tell `find_jobs` which results were off the mark, it updates your preferences and adjusts scoring. `track_applications` adds pipeline-level insight: if your response rate is low, it can identify possible causes from your resume and materials and suggest fixes; if interviews aren't converting, it points you toward prep instead of more applications.
 
@@ -73,7 +78,9 @@ Then run setup:
 
 ### After installing
 
-Setup will create `~/.see/`, prompt you for your resume, configure your job preferences, and conduct a work history interview.
+Setup will create `~/.see/`, prompt you for your resume, and configure your job preferences. You'll be searching in under 5 minutes.
+
+When you're ready to get the most out of resume tailoring and cover letters, run `/see:enhance_profile` for a deeper interview.
 
 You can also add your resume manually first:
 
@@ -85,8 +92,9 @@ cp /path/to/your/resume.pdf ~/.see/resume/
 ## Prerequisites
 
 - [Claude Cowork](https://claude.com/product/cowork) desktop app **or** [Claude Code CLI](https://claude.ai/code)
-- [Claude in Chrome](https://chromewebstore.google.com/detail/claude-in-chrome) extension (for browser automation)
+- [Claude in Chrome](https://chromewebstore.google.com/detail/claude-in-chrome) extension (for browser automation and applying to jobs)
 - Chrome browser running with the extension active
+- **Optional but recommended:** [Apify](https://apify.com) connector for faster, more reliable job search results. The plugin will offer to help you connect it on first run if it's not already set up.
 
 ## File Structure
 
@@ -107,6 +115,8 @@ seek-employment-expeditiously/
 │       └── priority-hierarchy.md       # Instruction priority hierarchy
 ├── skills/
 │   ├── create_profile/
+│   │   └── SKILL.md
+│   ├── enhance_profile/
 │   │   ├── SKILL.md
 │   │   └── scripts/
 │   ├── find_jobs/
@@ -131,7 +141,7 @@ seek-employment-expeditiously/
 ```
 ~/.see/
 ├── resume/                             # Your resume PDF/DOCX
-├── profile.md                          # Work history from interview
+├── profile.md                          # Work history from /see:enhance_profile
 ├── preferences.md                      # Job matching rules
 ├── job-history.md                      # Running log from find_jobs
 ├── application-data.md                # Reusable form field answers
