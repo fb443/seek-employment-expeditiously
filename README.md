@@ -157,6 +157,12 @@ seek-employment-expeditiously/
     └── ...
 ```
 
+## Support
+
+If this repo is helping your job search, star it on GitHub! It helps others find it. Click the **Star** button in the top-right corner of the main repository page (you'll need a free GitHub account).
+
+Found a bug or have a feature idea? Click **Issues** at the top of the page, then **New issue**.
+
 ## About
 
 This plugin is free and open source.
