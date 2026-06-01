@@ -145,9 +145,11 @@ Record these requirements — they determine what materials to generate in Step 
 
 The goal is to have everything ready before filling, so the user does minimal work.
 
-**Always tailor the resume.** Check if `DATA_DIR/jobs/[job-folder]/resume.md` exists for this job:
+**Always tailor the resume.** Check if `DATA_DIR/jobs/[job-folder]/resume.docx` (or `resume.md`) exists for this job:
 - If YES: the resume is already tailored for this role. Skip.
-- If NO: Invoke the `tweak_resume` skill (`/see:tweak_resume`), passing the job folder path. The skill handles the full tailoring workflow (posting analysis, resume rewrite, user review) and saves to the job folder. Wait for it to complete before continuing.
+- If NO: Invoke the `tweak_resume` skill (`/see:tweak_resume`), passing the job folder path. The skill handles the full tailoring workflow (posting analysis, resume rewrite, user review, DOCX generation) and saves to the job folder. Wait for it to complete before continuing.
+
+**For file uploads, prefer DOCX over markdown.** Use `resume.docx` if it exists, otherwise fall back to `resume.md`.
 
 **Generate a cover letter only if the form requires one.** If the scout in Step 3 found a cover letter field:
 - Check if `DATA_DIR/jobs/[job-folder]/cover-letter.md` exists
@@ -260,7 +262,7 @@ Match form field labels (case-insensitive, fuzzy) to application data:
 | `linkedin` | Profiles.LinkedIn | form_input / type |
 | `github` | Profiles.GitHub | form_input / type |
 | `portfolio`, `website` | Profiles.Portfolio | form_input / type |
-| `resume`, `cv` | File upload: resume PDF | file upload |
+| `resume`, `cv` | File upload: resume.docx (preferred) or resume.md | file upload |
 | `cover letter` | File upload: cover letter | file upload |
 | `how did you hear` | StandardAnswers.HowHeard | dropdown: "Job Board" |
 | `previously worked` | StandardAnswers.PreviouslyWorked | radio/checkbox: "No" |

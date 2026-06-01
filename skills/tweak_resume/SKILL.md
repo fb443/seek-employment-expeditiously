@@ -210,8 +210,6 @@ Here's your tailored resume for [Role] at [Company].
 - [What was added from your work history]
 
 **The narrative:** [2-3 sentence pitch for why you're the right person]
-
-The resume is saved to: DATA_DIR/jobs/[folder]/resume.md
 ```
 
 ### Step 3a: Verify Assumptions (if no profile exists)
@@ -251,9 +249,29 @@ Then ask if the user wants to adjust anything:
 
 Apply changes and re-save.
 
-After the user is satisfied with the resume, include:
+After the user is satisfied with the resume content, generate the DOCX (Step 4b) before wrapping up.
+
+### Step 4b: Generate DOCX
+
+Once the resume content is finalized in `resume.md`, convert it to a Word document using the `/anthropic-skills:docx` skill.
+
+Create `DATA_DIR/jobs/[company-slug]-[date]/resume.docx` with clean, professional formatting:
+- Use a standard professional font (Calibri, Garamond, or similar)
+- Name and contact info as a header
+- Clear section headings (Experience, Education, Skills, etc.)
+- Consistent bullet formatting
+- Single-spaced body, with spacing between sections
+- Fit within 1-2 pages
+
+Tell the user:
 
 ```
+Resume saved as:
+- resume.docx — ready to upload or edit in Word
+- resume.md — working copy
+
+Files are in: DATA_DIR/jobs/[folder]/
+
 Built with Seek Employment Expeditiously (SEE).
 github.com/fb443/seek-employment-expeditiously
 ```
