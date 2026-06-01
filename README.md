@@ -24,9 +24,9 @@ create_profile (~5 min, required)
   enhance_profile (optional,  │ feedback improves
   unlocks better materials)   │ future searches
        ↓                      │
-  tweak_resume                │
-       ↓                      │
- generate_cover_letter        │
+  tweak_resume ←──────────────│ pipeline results inform 
+       ↓                      │ resume + cover letter generation
+ generate_cover_letter ←──────│
        ↓                      │
      apply                    │
        ↓                      │
