@@ -40,17 +40,27 @@ Hiring.cafe is a Next.js app that embeds structured job data in `window.__NEXT_D
 
 ```javascript
 const hits = window.__NEXT_DATA__?.props?.pageProps?.ssrHits || [];
-JSON.stringify(hits.slice(0, 50).map(h => ({
-  title: h.job_information?.title || '',
-  company: h.enriched_company_data?.name || '',
-  location: h.job_information?.location || '',
-  salary: h.job_information?.salary || 'N/A',
-  apply_url: h.v5_processed_job_data?.apply_url || '',
-  description: (h.job_information?.description || '').slice(0, 200)
-})))
+JSON.stringify(hits.slice(0, 50).map(h => {
+  const v5 = h.v5_processed_job_data || {};
+  const salMin = v5.salary_range_min;
+  const salMax = v5.salary_range_max;
+  const salPeriod = v5.salary_period;
+  let salary = 'N/A';
+  if (salMin && salMax) salary = '$' + salMin + '-$' + salMax + (salPeriod ? '/' + salPeriod : '');
+  else if (salMin) salary = '$' + salMin + '+' + (salPeriod ? '/' + salPeriod : '');
+  return {
+    title: h.job_information?.title || '',
+    company: h.enriched_company_data?.name || '',
+    location: (v5.workplace_cities || []).slice(0, 2).join('; ') || (v5.workplace_states || []).join('; ') || 'Unknown',
+    salary: salary,
+    link: h.apply_url || '',
+    description: (v5.requirements_summary || '').slice(0, 200),
+    source: 'hiring.cafe'
+  };
+}))
 ```
 
-The field names may vary — if `ssrHits`, `job_information`, or `v5_processed_job_data` don't exist, inspect `window.__NEXT_DATA__` to find the actual structure. The key fields to locate are: job title, company name, location, salary, apply URL, and description.
+If `ssrHits` is empty or missing, the page structure may have changed. Inspect `window.__NEXT_DATA__?.props?.pageProps` to find the job listing array, then adapt the field paths. The key fields: `h.job_information.title` (title), `h.enriched_company_data.name` (company), `h.apply_url` (employer link), and salary/location/description in `h.v5_processed_job_data`.
 
 **Fallback** — if `__NEXT_DATA__` is empty or doesn't contain job listings (e.g., the page uses client-side rendering), fall back to DOM extraction:
 
