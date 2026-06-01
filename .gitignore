@@ -5,6 +5,9 @@ skills/find_jobs/assets/resume/
 skills/find_jobs/logs/
 skills/generate_cover_letter/assets/cover-letters/
 
+# User data (created by /see:create_profile)
+.see/
+
 # OS files
 .DS_Store
 

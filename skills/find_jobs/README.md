@@ -7,6 +7,7 @@ An automated job search skill that finds and evaluates job listings using parall
 - **Parallel search** — runs all available sources concurrently via subagents, significantly faster than sequential search
 - **Multi-source coverage** across Apify Google Jobs Scraper, Hiring.cafe, and Google Jobs
 - **Smart source detection** — uses Apify for fast structured results when available, falls back to browser automation, offers to connect Apify if missing
+- **Smart location defaults** — when your preference is "Remote" or "open to any location," defaults to country-wide search so API sources don't require a specific city
 - **Expanded search terms** — suggests skills-based and adjacent role queries beyond your stated targets
 - **Fit scoring** with numeric scores based on seniority, skills, experience, and preferences
 - **Smart filtering** based on salary, location, dealbreakers, and learned patterns
@@ -59,6 +60,7 @@ The skill uses **source-level parallelism** — each search source runs as an in
 ```
 SKILL.md (orchestrator)
   ├── Load context & expand search terms
+  ├── Resolve location (default to country if broad/remote)
   ├── Detect available sources
   ├── Launch subagents in parallel:
   │     ├── search-apify.md        (Apify Google Jobs Scraper)
@@ -163,6 +165,9 @@ Ensure all permissions are in `~/.claude/settings.json` (see Installation step 3
 
 ### Browser not responding
 Make sure Chrome is running and Claude in Chrome extension is active.
+
+### Apify returns "Need a location and country code"
+This happens if no location was passed to the API. The skill now defaults to "United States" (or the relevant country) when your preferences say "Remote" or "open to any location." If you still see this, check that `~/.see/preferences.md` has a location section — even "Remote" is fine.
 
 ### No jobs found
 - If using Apify: check your Apify account has available compute units

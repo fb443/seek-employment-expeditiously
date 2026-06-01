@@ -1,6 +1,6 @@
 # Seek Employment eXpeditiously (SEE)
 
-Your AI-powered job search copilot. SEE finds jobs across multiple sources, tailors your resume for each role, writes targeted cover letters, fills out applications on Greenhouse, Lever, and Workday, and tracks your entire pipeline — all from Claude. It gets smarter every run: your feedback fine-tunes scoring, filters, and search terms so results improve over time.
+The job search agent that does everything but show up to the interview. SEE searches multiple sources in parallel, tailors your resume and cover letter for every role, auto-fills applications on Greenhouse, Lever, and Workday, and tracks your full pipeline from first search to offer. It learns from your feedback on every run - your preferences sharpen search results, your edits refine future resumes and cover letters, and your pipeline data reveals what's working and what to fix.
 
 ## Skills
 

@@ -5,7 +5,7 @@
     "email": "ftb24@cornell.edu"
   },
   "metadata": {
-    "description": "Your AI job search copilot — finds roles, tailors resumes, writes cover letters, fills applications on Greenhouse/Lever/Workday, and tracks your pipeline. Gets smarter with every search."
+    "description": "The job search agent that does everything but show up to the interview. SEE searches multiple sources in parallel, tailors your resume and cover letter for every role, auto-fills applications on Greenhouse/Lever/Workday, and learns from your feedback to get sharper with every run."
   },
   "plugins": [
     {
@@ -14,7 +14,7 @@
         "source": "github",
         "repo": "fb443/seek-employment-expeditiously"
       },
-      "description": "Your AI job search copilot — finds roles, tailors resumes, writes cover letters, fills applications on Greenhouse/Lever/Workday, and tracks your pipeline. Gets smarter with every search.",
+      "description": "The job search agent that does everything but show up to the interview. SEE searches multiple sources in parallel, tailors your resume and cover letter for every role, auto-fills applications on Greenhouse/Lever/Workday, and learns from your feedback to get sharper with every run.",
       "version": "2.0.0",
       "author": {
         "name": "Finn Buckley"

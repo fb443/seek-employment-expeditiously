@@ -78,9 +78,22 @@ The user can remove any they don't want. Proceed after confirmation.
 
 ### Step 3: Detect Sources & Launch Parallel Searches
 
-Check which sources are available, then launch all available search subagents **in parallel** using the Agent tool. Each subagent runs independently and returns a JSON array of job listings.
+Check which sources are available, resolve locations, then launch all available search subagents **in parallel** using the Agent tool. Each subagent runs independently and returns a JSON array of job listings.
 
-#### 3a: Detect available sources
+#### 3a: Resolve location
+
+The Apify API requires a location string in each query. If the candidate's preferences specify a city or region, use it. Otherwise, default to the country name (e.g., "United States") so the API gets a valid location without needing specific metros.
+
+| Preference says | Location to use |
+|---|---|
+| A specific city (e.g., "New York, NY") | `"New York, NY"` |
+| "Remote" or "open to any location" or no location set | `"United States"` (or the relevant country name) |
+| A non-US location (e.g., "London, UK") | Use as-is |
+| A broad non-US region (e.g., "Europe") | Use the country name of the most likely target (e.g., "United Kingdom") |
+
+Default country code: `"us"` unless preferences indicate otherwise.
+
+#### 3b: Detect available sources
 
 1. **Apify** — Try calling `mcp__Apify__search-actors` with query `"google jobs scraper"`. If it succeeds, Apify is available.
 
@@ -90,9 +103,9 @@ Check which sources are available, then launch all available search subagents **
 
 4. **If only browser is available**, mention that Apify provides faster, more reliable results and offer to help connect it via `mcp__mcp-registry__suggest_connectors`. If the user skips, proceed with browser sources only.
 
-#### 3b: Launch subagents in parallel
+#### 3c: Launch subagents in parallel
 
-Spawn one Agent tool call per available source, **all in the same message** so they run concurrently. Each subagent gets the search terms and relevant preferences.
+Spawn one Agent tool call per available source, **all in the same message** so they run concurrently. Each subagent gets the search terms and the resolved locations from Step 3a.
 
 **Apify subagent** (if available):
 ```
@@ -101,8 +114,8 @@ Agent({
   prompt: "<read scripts/search-apify.md for instructions>
 
 Search terms: [all search terms]
-Location: [from preferences]
-Country: [from preferences]"
+Location: [resolved location from Step 3a — always a concrete string, never 'open to any']
+Country: [country code, default 'us']"
 })
 ```
 
@@ -116,7 +129,7 @@ Search terms: [all search terms]
 Preferences:
 - Seniority: [from preferences]
 - Salary minimum: [from preferences]
-- Location: [from preferences]
+- Location: [original location preference — this source handles 'Remote' and broad locations natively]
 - Commitment: [from preferences]
 - Industry: [from preferences, if any]"
 })
@@ -129,7 +142,7 @@ Agent({
   prompt: "<read scripts/search-google-jobs.md for instructions>
 
 Search terms: [all search terms]
-Location: [from preferences]"
+Location: [original location preference — Google Jobs handles broad queries natively]"
 })
 ```
 
@@ -291,7 +304,6 @@ Add to `~/.claude/settings.json`:
       "Read(~/.see/**)",
       "Write(~/.see/**)",
       "Edit(~/.see/**)",
-      "Bash(crontab *)",
       "mcp__claude-in-chrome__*",
       "mcp__Apify__*"
     ]
