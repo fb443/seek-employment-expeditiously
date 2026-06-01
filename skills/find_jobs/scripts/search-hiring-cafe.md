@@ -34,7 +34,25 @@ For **subsequent search terms**: clear the search input, type the new query, pre
 
 **IMPORTANT:** Do NOT use `get_page_text`. It returns the entire page and will blow out the context window.
 
-Use `javascript_tool` to extract listing data:
+Hiring.cafe is a Next.js app that embeds structured job data in `window.__NEXT_DATA__`. Extract from there first — it's faster and more reliable than DOM scraping, and includes employer apply URLs.
+
+**Primary method** — use `javascript_tool`:
+
+```javascript
+const hits = window.__NEXT_DATA__?.props?.pageProps?.ssrHits || [];
+JSON.stringify(hits.slice(0, 50).map(h => ({
+  title: h.job_information?.title || '',
+  company: h.enriched_company_data?.name || '',
+  location: h.job_information?.location || '',
+  salary: h.job_information?.salary || 'N/A',
+  apply_url: h.v5_processed_job_data?.apply_url || '',
+  description: (h.job_information?.description || '').slice(0, 200)
+})))
+```
+
+The field names may vary — if `ssrHits`, `job_information`, or `v5_processed_job_data` don't exist, inspect `window.__NEXT_DATA__` to find the actual structure. The key fields to locate are: job title, company name, location, salary, apply URL, and description.
+
+**Fallback** — if `__NEXT_DATA__` is empty or doesn't contain job listings (e.g., the page uses client-side rendering), fall back to DOM extraction:
 
 ```javascript
 Array.from(document.querySelectorAll('[class*="job"], [class*="listing"], [class*="card"], tr, [role="listitem"]'))
@@ -44,9 +62,7 @@ Array.from(document.querySelectorAll('[class*="job"], [class*="listing"], [class
   .join('\n---\n')
 ```
 
-If that selector returns nothing, take a screenshot to understand the page structure, then write a targeted selector. The goal is to extract just the listing rows — never the full page. As a fallback, use `read_page` (NOT `get_page_text`).
-
-Parse each listing's text into structured fields (title, company, location, salary).
+If that selector also returns nothing, take a screenshot to understand the page structure, then write a targeted selector. As a last resort, use `read_page` (NOT `get_page_text`).
 
 ## Output
 
@@ -59,20 +75,20 @@ Return your results as a single JSON array. Each entry must have exactly these f
     "company": "Acme Corp",
     "location": "Remote, US",
     "salary": "$150k-$180k",
-    "link": "",
-    "description": "",
+    "link": "https://careers.acme.com/jobs/123",
+    "description": "First 200 chars of description if available...",
     "source": "hiring.cafe"
   }
 ]
 ```
 
 **Field rules:**
-- `title`: job title parsed from listing text
-- `company`: company name parsed from listing text
+- `title`: job title from SSR data or parsed from listing text
+- `company`: company name from SSR data or parsed from listing text
 - `location`: location string, or `"Unknown"` if not visible
 - `salary`: salary range if visible, otherwise `"N/A"`
-- `link`: leave empty — the main agent resolves employer URLs later
-- `description`: leave empty — descriptions are not available from listing pages
+- `link`: the employer's apply URL from `apply_url` in the SSR data. If extracted via DOM fallback, leave empty.
+- `description`: first 200 characters from SSR data, or empty if extracted via DOM fallback
 - `source`: always `"hiring.cafe"`
 
 **Do NOT share hiring.cafe URLs.** They are internal search tool links, not employer links.

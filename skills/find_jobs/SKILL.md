@@ -170,15 +170,17 @@ Score passing jobs against the candidate's resume and preferences using the full
 
 ### Step 7: Save History
 
-Append ALL jobs to `DATA_DIR/job-history.md`:
+Append ALL jobs to `DATA_DIR/job-history.md` using the format in `assets/templates/job-entry.md`:
 
 ```markdown
 ## [DATE] - Search: "[terms]"
 
-| Job Title | Company | Location | Salary | Fit | Notes |
-|-----------|---------|----------|--------|-----|-------|
-| ... | ... | ... | ... | ... | ... |
+| Job Title | Company | Location | Salary | Link | Fit | Notes |
+|-----------|---------|----------|--------|------|-----|-------|
+| ... | ... | ... | ... | [url] | ... | ... |
 ```
+
+Preserve every link returned by the search subagents. For Apify results, this is typically the employer's apply page. For browser sources, leave it blank here — Step 8 resolves it.
 
 ### Step 8: Resolve Employer URLs & Save Top Postings
 
@@ -198,7 +200,7 @@ Never show hiring.cafe URLs to the user.
 
 ### Step 9: Present Results
 
-Show only NEW High/Medium fits not in previous history.
+Show only NEW High/Medium fits not in previous history. **Every result must include a clickable apply link.** Use the employer URL resolved in Step 8. If Step 8 could not resolve a URL (browser failed or source didn't provide one), fall back to the link from the search subagent's output. If that is also empty, note "Link not available — search for [Title] at [Company] on their careers page."
 
 ```markdown
 ## Top Matches for [DATE]

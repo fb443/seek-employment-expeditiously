@@ -54,7 +54,7 @@ Return your results as a single JSON array. Each entry must have exactly these f
 - `company`: company name
 - `location`: location string
 - `salary`: salary range if available, otherwise `"N/A"`
-- `link`: the direct apply URL if available, otherwise the job listing URL
+- `link`: the direct employer apply URL — check the actor output for fields like `applyLink`, `apply_link`, `directApplyLink`, or `link`. Prefer the one that points to the employer's careers site (not Google's intermediary page). If only a Google Jobs URL is available, use it as a fallback.
 - `description`: first 200 characters of the job description (truncate longer)
 - `source`: always `"apify"`
 
