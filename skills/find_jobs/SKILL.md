@@ -95,7 +95,7 @@ Default country code: `"us"` unless preferences indicate otherwise.
 
 #### 3b: Detect available sources
 
-1. **Apify** — Try calling `mcp__Apify__search-actors` with query `"google jobs scraper"`. If it succeeds, Apify is available.
+1. **Apify** — Try calling `mcp__Apify__fetch-actor-details` with actor `"sovereigntaylor/google-jobs-scraper"`. If it succeeds, Apify is available.
 
 2. **Claude in Chrome** — Try calling `mcp__Claude_in_Chrome__tabs_context_mcp`. If it succeeds, browser sources (Hiring.cafe and Google Jobs) are available.
 
